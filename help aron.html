@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artcaraki — Warisan Herbal Nusantara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F1E4;
+    --paper:#FCF9F1;
+    --forest:#3C5240;
+    --forest-deep:#28352A;
+    --brown:#7B5233;
+    --brown-deep:#4A3222;
+    --sage:#B9C6A6;
+    --sage-soft:#E4E9D9;
+    --gold:#C08A3E;
+    --line:#DBCEB2;
+    --ink:#33291F;
+    --ink-soft:#6B5E4C;
+    --shadow: 0 10px 30px -12px rgba(60,44,20,0.25);
+    --radius: 18px;
+    --serif: 'Fraunces', 'Iowan Old Style', 'Georgia', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(74,50,34,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- DEKORASI NUSANTARA (motif bergerak di latar belakang) ---------- */
+  .deco-bg{
+    position:fixed; inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .deco-bg svg{
+    position:absolute;
+    filter:drop-shadow(0 4px 10px rgba(74,50,34,0.06));
+  }
+  .deco-bg .layer{
+    position:absolute; inset:0;
+  }
+
+  /* batik sudut - garis lengkung khas parang/sulur, sangat samar */
+  .deco-corner{
+    position:absolute;
+    opacity:0.16;
+  }
+  .deco-corner.tl{ top:-40px; left:-40px; width:min(34vw,320px); }
+  .deco-corner.br{ bottom:-40px; right:-40px; width:min(34vw,320px); transform:rotate(180deg); }
+
+  /* elemen mengambang: daun, bunga kamboja, kembang sepatu, kupu-kupu, padi */
+  .deco-float{
+    position:absolute;
+    opacity:0.22;
+    transform-origin:center;
+    animation-name:decoFloat;
+    animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
+  }
+  .deco-butterfly{
+    animation-name:decoFlutter;
+  }
+
+  @keyframes decoFloat{
+    0%{ transform:translateY(0) rotate(var(--r0,0deg)); }
+    100%{ transform:translateY(-22px) rotate(var(--r1,4deg)); }
+  }
+  @keyframes decoFlutter{
+    0%{ transform:translate(0,0) rotate(-6deg); }
+    50%{ transform:translate(10px,-16px) rotate(4deg); }
+    100%{ transform:translate(-6px,-4px) rotate(-8deg); }
+  }
+  @keyframes decoSway{
+    0%{ transform:rotate(-4deg); }
+    100%{ transform:rotate(4deg); }
+  }
+
+  @media (max-width: 880px){
+    .deco-float.hide-mobile{ display:none; }
+    .deco-corner{ opacity:0.1; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .deco-float, .deco-butterfly{ animation:none !important; }
+  }
+
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  img{max-width:100%; display:block;}
+
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--brown);
+  }
+
+  /* ---------- HEADER ---------- */
+  header.site-header{
+    position:sticky; top:0; z-index:40;
+    background:rgba(246,241,228,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    gap:20px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:22px;
+    color:var(--forest-deep);
+    letter-spacing:0.01em;
+  }
+  .logo svg{width:30px; height:30px; flex-shrink:0;}
+  .logo-mark{
+    width:42px; height:42px; border-radius:50%; object-fit:cover;
+    border:1.5px solid var(--sage); background:var(--paper); flex-shrink:0;
+  }
+  nav.main-nav{
+    display:flex; align-items:center; gap:6px;
+  }
+  .nav-link{
+    font-size:14.5px; font-weight:600; color:var(--ink-soft);
+    padding:9px 16px; border-radius:999px;
+    transition:all .2s ease;
+    position:relative;
+  }
+  .nav-link:hover{color:var(--forest-deep); background:var(--sage-soft);}
+  .nav-link.active{color:var(--paper); background:var(--forest);}
+
+  .header-right{display:flex; align-items:center; gap:12px;}
+
+  .mobile-nav-toggle{
+    display:none;
+    align-items:center; justify-content:center;
+    width:40px; height:40px; flex-shrink:0;
+    border:1px solid var(--line); border-radius:10px;
+    background:var(--paper); color:var(--forest-deep);
+  }
+  .mobile-nav-toggle svg{width:20px; height:20px;}
+
+  .mobile-nav-panel{
+    position:absolute; top:100%; left:0; right:0;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:10px 16px 16px;
+    display:flex; flex-direction:column; gap:2px;
+    opacity:0; transform:translateY(-8px);
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:39;
+  }
+  .mobile-nav-panel.open{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .mobile-nav-panel .nav-link{
+    text-align:left; padding:13px 14px; border-radius:12px; font-size:15px;
+  }
+
+  .lang-select-wrap{position:relative;}
+  select.lang-select{
+    appearance:none; -webkit-appearance:none;
+    background:var(--paper);
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-weight:600; font-size:13px;
+    padding:9px 32px 9px 14px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .lang-select-wrap::after{
+    content:"▾";
+    position:absolute; right:13px; top:50%; transform:translateY(-50%);
+    font-size:11px; color:var(--ink-soft); pointer-events:none;
+  }
+
+  /* ---------- LAYOUT / VIEWS ---------- */
+  main{position:relative; z-index:1;}
+  .view{display:none;}
+  .view.active{display:block; animation:fadein .45s ease both;}
+  @keyframes fadein{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .container{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 0 40px;
+    text-align:center;
+    position:relative;
+  }
+  .hero-eyebrow{margin-bottom:16px;}
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(32px, 5vw, 54px);
+    line-height:1.12;
+    color:var(--forest-deep);
+    max-width:820px;
+    margin:0 auto 18px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--brown);
+    font-weight:500;
+  }
+  .hero p.sub{
+    max-width:560px; margin:0 auto 36px;
+    color:var(--ink-soft);
+    font-size:16px; line-height:1.6;
+  }
+
+  .tree-illustration{
+    width:100%; max-width:260px; margin:0 auto 40px;
+    display:flex; justify-content:center;
+  }
+  .logo-glow-wrap{
+    position:relative;
+    width:100%;
+    display:flex; justify-content:center; align-items:center;
+    padding:14px 0;
+  }
+  .logo-glow-wrap::before,
+  .logo-glow-wrap::after{
+    content:"";
+    position:absolute;
+    top:50%; left:50%;
+    border-radius:50%;
+    transform:translate(-50%,-50%) scale(0.9);
+    z-index:0;
+    pointer-events:none;
+  }
+  .logo-glow-wrap::before{
+    width:70%; height:70%;
+    background:radial-gradient(circle, rgba(255,223,150,0.65) 0%, rgba(192,138,62,0.38) 45%, rgba(192,138,62,0) 72%);
+    filter:blur(10px);
+    animation:logoGlowCore 4s ease-in-out infinite;
+  }
+  .logo-glow-wrap::after{
+    width:100%; height:100%;
+    background:radial-gradient(circle, rgba(185,198,166,0.4) 0%, rgba(185,198,166,0) 70%);
+    filter:blur(4px);
+    animation:logoGlowOuter 4s ease-in-out infinite;
+  }
+  .logo-glow-wrap svg{
+    position:relative; z-index:1;
+    width:100%; height:auto; max-width:210px;
+    overflow:visible;
+    filter:drop-shadow(0 0 14px rgba(255,214,133,0.55)) drop-shadow(0 6px 16px rgba(74,50,34,0.18));
+    animation:logoFloat 5.5s ease-in-out infinite;
+  }
+  @keyframes logoGlowCore{
+    0%, 100%{ opacity:0.5; transform:translate(-50%,-50%) scale(0.88); }
+    50%{ opacity:1; transform:translate(-50%,-50%) scale(1.12); }
+  }
+  @keyframes logoGlowOuter{
+    0%, 100%{ opacity:0.4; transform:translate(-50%,-50%) scale(0.92); }
+    50%{ opacity:0.8; transform:translate(-50%,-50%) scale(1.08); }
+  }
+  @keyframes logoFloat{
+    0%, 100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .logo-glow-wrap::before, .logo-glow-wrap::after, .logo-glow-wrap svg{ animation:none !important; }
+    .logo-glow-wrap svg animateTransform, .logo-glow-wrap svg animate{ display:none; }
+  }
+
+  /* ---------- SEARCH ---------- */
+  .searchbar{
+    max-width:640px; margin:0 auto;
+    display:flex; align-items:center; gap:8px;
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:999px;
+    padding:8px 8px 8px 22px;
+    box-shadow:var(--shadow);
+  }
+  .searchbar input{
+    flex:1; border:none; outline:none; background:transparent;
+    font-family:var(--sans); font-size:15px; color:var(--ink);
+    min-width:0;
+  }
+  .searchbar input::placeholder{color:#A79A85;}
+  .icon-btn{
+    width:40px; height:40px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:none; background:transparent; color:var(--forest);
+    transition:background .2s ease, color .2s ease;
+    flex-shrink:0;
+  }
+  .icon-btn:hover{background:var(--sage-soft);}
+  .icon-btn.primary{
+    background:var(--forest); color:var(--paper);
+  }
+  .icon-btn.primary:hover{background:var(--forest-deep);}
+  .icon-btn svg{width:19px; height:19px;}
+  .search-hint{
+    text-align:center; font-size:12.5px; color:#9C8E77;
+    margin-top:12px;
+  }
+
+  /* ---------- SECTION HEADER ---------- */
+  .section{padding:56px 0;}
+  .section-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    margin-bottom:32px; gap:20px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(24px,3vw,32px);
+    color:var(--forest-deep);
+  }
+  .section-head p{color:var(--ink-soft); font-size:14.5px; margin-top:6px;}
+
+  /* ---------- CATEGORY GRID ---------- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:18px;
+  }
+  .cat-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 22px;
+    text-align:left;
+    display:flex; flex-direction:column; gap:14px;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .cat-card::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(135deg, transparent 60%, var(--sage-soft) 150%);
+    opacity:0; transition:opacity .25s ease;
+  }
+  .cat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow);
+    border-color:var(--sage);
+  }
+  .cat-card:hover::after{opacity:1;}
+  .cat-seal{
+    width:52px; height:52px; border-radius:50%;
+    border:1.5px dashed var(--sage);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--forest);
+    flex-shrink:0;
+  }
+  .cat-seal svg{width:24px; height:24px;}
+  .cat-card h3{
+    font-family:var(--serif); font-weight:600; font-size:19px;
+    color:var(--brown-deep);
+  }
+  .cat-card .desc{font-size:13px; color:var(--ink-soft); line-height:1.5;}
+  .cat-card .go{
+    margin-top:auto;
+    font-size:12.5px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--forest); display:flex; align-items:center; gap:6px;
+  }
+  .cat-card .go svg{width:13px; height:13px; transition:transform .2s ease;}
+  .cat-card:hover .go svg{transform:translateX(3px);}
+
+  /* ---------- MOOD PICKER (pengganti feature-strip) ---------- */
+  .mood-section{
+    margin:36px 0 0;
+    padding:40px 0 8px;
+    border-top:1px solid var(--line);
+  }
+  .mood-head{text-align:center; max-width:560px; margin:0 auto 30px;}
+  .mood-head .eyebrow{margin-bottom:10px;}
+  .mood-head h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);
+    color:var(--forest-deep);
+    margin-bottom:10px;
+  }
+  .mood-head p{color:var(--ink-soft); font-size:15px; line-height:1.6;}
+
+  /* ---------- MOOD / TEASER CARDS (gaya "artikel yang bikin penasaran") ---------- */
+  .mood-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:20px;
+  }
+  .mood-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 26px 24px;
+    text-align:left;
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .mood-card::after{
+    content:"";
+    position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(135deg, transparent 55%, var(--sage-soft) 160%);
+    opacity:0; transition:opacity .25s ease;
+  }
+  .mood-card:hover{transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--sage);}
+  .mood-card:hover::after{opacity:1;}
+  .mood-card .mood-top{
+    display:flex; align-items:flex-start; gap:16px;
+    position:relative; z-index:1;
+  }
+  .mood-card .mood-badge{
+    width:52px; height:52px; border-radius:50%; flex-shrink:0;
+    background:var(--forest); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 14px -6px rgba(60,44,20,0.35);
+  }
+  .mood-card .mood-badge svg{width:24px; height:24px;}
+  .mood-card .mood-badge.emoji{font-size:24px; line-height:1;}
+  .mood-card .mood-text{min-width:0;}
+  .mood-card .mood-question{
+    font-size:12.5px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--forest); margin-bottom:6px;
+  }
+  .mood-card h3{
+    font-family:var(--serif); font-weight:600; font-size:21px;
+    color:var(--brown-deep); margin-bottom:8px;
+  }
+  .mood-card .mood-desc{font-size:13.5px; color:var(--ink-soft); line-height:1.55;}
+  .mood-card .mood-divider{
+    height:1px; background:var(--line); margin:20px 0 14px; position:relative; z-index:1;
+  }
+  .mood-card .mood-stats{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-size:13px; font-weight:600; color:var(--ink-soft);
+    margin-bottom:18px; position:relative; z-index:1;
+  }
+  .mood-card .mood-stats .stat{display:flex; align-items:center; gap:6px;}
+  .mood-card .mood-stats .stat svg{width:15px; height:15px; color:var(--gold); flex-shrink:0;}
+  .mood-card .mood-stats .stat.time svg,
+  .mood-card .mood-stats .stat.diff svg{color:var(--forest);}
+  .mood-card .mood-stats .sep{color:var(--line);}
+  .mood-card .mood-cta{
+    margin-top:auto;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--forest); color:var(--paper);
+    font-size:14px; font-weight:700;
+    padding:13px 20px; border-radius:999px;
+    transition:background .2s ease, transform .2s ease;
+    position:relative; z-index:1;
+  }
+  .mood-card .mood-cta svg{width:15px; height:15px; transition:transform .2s ease;}
+  .mood-card:hover .mood-cta{background:var(--forest-deep);}
+  .mood-card:hover .mood-cta svg{transform:translateX(3px);}
+
+  /* ---------- BACK BAR ---------- */
+  .back-bar{
+    display:flex; align-items:center; gap:14px;
+    padding:24px 0 4px;
+  }
+  .back-btn{
+    display:flex; align-items:center; gap:7px;
+    font-size:13.5px; font-weight:700; color:var(--forest-deep);
+    background:var(--sage-soft); border:1px solid var(--sage);
+    padding:9px 16px 9px 12px; border-radius:999px;
+    transition:background .2s ease;
+  }
+  .back-btn:hover{background:var(--sage);}
+  .back-btn svg{width:15px; height:15px;}
+  .crumb{font-size:13px; color:var(--ink-soft);}
+  .crumb b{color:var(--brown-deep);}
+
+  /* ---------- SUBCATEGORY (drink list) ---------- */
+  .subcat-hero{
+    padding:36px 0 8px; text-align:left;
+  }
+  .subcat-hero .eyebrow{margin-bottom:10px;}
+  .subcat-hero h2{
+    font-family:var(--serif); font-weight:600; font-size:clamp(28px,4vw,40px);
+    color:var(--forest-deep); margin-bottom:10px;
+  }
+  .subcat-hero p{color:var(--ink-soft); max-width:560px; font-size:15px; line-height:1.6;}
+
+  .item-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px; padding:36px 0 64px;
+  }
+  .item-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; display:flex; flex-direction:column;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .item-card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+  .item-card .thumb{
+    height:150px; background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 60%),
+      linear-gradient(135deg, var(--forest), var(--brown));
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .item-card .thumb .thumb-icon{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .item-card .thumb .thumb-icon svg{width:52px; height:52px; color:rgba(255,255,255,0.92);}
+
+  /* uap hangat mengepul dari cangkir jamu */
+  .item-card .thumb .thumb-steam{
+    position:absolute; top:40px;
+    width:2.6px; height:15px; border-radius:3px;
+    background:rgba(255,255,255,0.6);
+    z-index:2;
+    animation:steamRise 3.2s ease-in-out infinite;
+  }
+  .item-card .thumb .thumb-steam.s1{ left:44%; animation-delay:0s; }
+  .item-card .thumb .thumb-steam.s2{ left:50%; animation-delay:.6s; }
+  .item-card .thumb .thumb-steam.s3{ left:56%; animation-delay:1.2s; }
+
+  /* daun-daun & hiasan nusantara mengambang lembut, tersebar acak — tidak berputar */
+  .item-card .thumb .thumb-float{
+    position:absolute; z-index:2;
+    opacity:0.4; color:rgba(255,255,255,0.85);
+    animation-name:decoFloat; animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite; animation-direction:alternate;
+  }
+  .item-card .thumb .thumb-float.f1{ top:14px; left:20px; width:19px; --r0:-9deg; --r1:5deg; animation-duration:5.2s; }
+  .item-card .thumb .thumb-float.f2{ bottom:18px; right:30px; width:16px; --r0:7deg; --r1:-5deg; animation-duration:6.4s; animation-delay:.5s; }
+  .item-card .thumb .thumb-float.f3{ top:38px; right:16px; width:13px; --r0:-5deg; --r1:9deg; animation-duration:4.8s; animation-delay:1s; }
+  .item-card .thumb .thumb-float.f4{ bottom:34px; left:38px; width:12px; --r0:8deg; --r1:-6deg; animation-duration:5.8s; animation-delay:.3s; }
+  .item-card .thumb .thumb-float.f5{ top:22px; left:52%; width:11px; --r0:-6deg; --r1:6deg; animation-duration:6s; animation-delay:1.4s; }
+  .item-card .thumb .thumb-float.f6{ bottom:14px; left:10px; width:15px; --r0:5deg; --r1:-8deg; animation-duration:5.4s; animation-delay:.8s; }
+
+  @media (prefers-reduced-motion:reduce){
+    .item-card .thumb .thumb-steam,
+    .item-card .thumb .thumb-float{ animation:none !important; }
+  }
+  .item-card .body{padding:22px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .item-card h3{font-family:var(--serif); font-weight:600; font-size:20px; color:var(--brown-deep);}
+  .item-card p{font-size:13.5px; color:var(--ink-soft); line-height:1.55; flex:1;}
+  .item-card .go{
+    font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
+    color:var(--forest); display:flex; align-items:center; gap:6px; margin-top:6px;
+  }
+  .item-card .go svg{width:13px; height:13px;}
+
+  /* ---------- DETAIL VIEW ---------- */
+  .detail-hero{
+    padding:32px 0 0;
+    display:flex; gap:32px; align-items:flex-end; flex-wrap:wrap;
+  }
+  .detail-hero .thumb-lg{
+    width:150px; height:150px; border-radius:20px; flex-shrink:0;
+    position:relative; overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .detail-hero .thumb-lg img{width:100%; height:100%; object-fit:cover; display:block;}
+  .detail-hero .thumb-lg .photo-fallback{
+    position:absolute; inset:0;
+    background:linear-gradient(135deg, var(--forest), var(--brown));
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px;
+    color:rgba(255,255,255,0.9); text-align:center; padding:10px;
+  }
+  .detail-hero .thumb-lg .photo-fallback svg{width:34px; height:34px;}
+  .detail-hero .thumb-lg .photo-fallback span{font-size:10.5px; font-weight:600; line-height:1.3;}
+
+  /* generic photo slot: shows uploaded image, falls back to icon+label if missing */
+  .photo-slot{position:relative; overflow:hidden; background:var(--sage-soft);}
+  .photo-slot img{width:100%; height:100%; object-fit:cover; display:block;}
+  .photo-slot .photo-fallback{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:6px; color:var(--brown); text-align:center; padding:8px;
+    border:1.5px dashed var(--sage); border-radius:inherit; background:var(--sage-soft);
+  }
+  .photo-slot .photo-fallback svg{width:22px; height:22px; opacity:.8;}
+  .photo-slot .photo-fallback span{font-size:10.5px; font-weight:700; line-height:1.3;}
+
+  /* ---------- INGREDIENTS ---------- */
+  .ingredients-block{padding:36px 0 0;}
+  .ingredients-block h3{
+    font-family:var(--serif); font-weight:600; font-size:20px; color:var(--forest-deep); margin-bottom:4px;
+  }
+  .ingredients-block .sub{font-size:13px; color:var(--ink-soft); margin-bottom:18px;}
+  .ingredients-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(110px,1fr)); gap:14px;
+  }
+  .ingredient-card{text-align:center;}
+  .ingredient-card .photo-slot{
+    width:100%; aspect-ratio:1/1; margin-bottom:8px;
+    border:none; background:transparent;
+  }
+  .ingredient-card .photo-slot .photo-fallback{
+    border:none; background:transparent; border-radius:0;
+  }
+  .ingredient-card .photo-slot .photo-fallback svg{width:30px; height:30px; opacity:.85;}
+  .ingredient-card .name{font-size:12.5px; font-weight:700; color:var(--brown-deep);}
+
+  /* ikon bahan animasi lembut, tiap bahan punya gambar berbeda */
+  .ing-icon-wrap{
+    display:inline-flex; animation:ingSway 3.2s ease-in-out infinite;
+    animation-delay:var(--ing-delay,0s);
+  }
+  @keyframes ingSway{
+    0%{ transform:rotate(-5deg) scale(1); }
+    50%{ transform:rotate(5deg) scale(1.06); }
+    100%{ transform:rotate(-5deg) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ing-icon-wrap{ animation:none !important; }
+  }
+
+  /* ---------- STEP LIST ---------- */
+  .steps-list{display:flex; flex-direction:column; gap:0; max-width:640px;}
+  .serving-info{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--sage-soft); color:var(--forest-deep);
+    border:1px solid var(--sage); border-radius:999px;
+    padding:8px 16px; margin-bottom:20px;
+    font-size:13.5px; font-weight:700;
+    max-width:640px;
+  }
+  .serving-info svg{width:16px; height:16px; flex-shrink:0;}
+  .step-item{display:flex; gap:16px; position:relative; padding-bottom:26px;}
+  .step-item:last-child{padding-bottom:0;}
+  .step-item::before{
+    content:""; position:absolute; left:18px; top:38px; bottom:0; width:1.5px;
+    background:var(--line);
+  }
+  .step-item:last-child::before{display:none;}
+  .step-num{
+    width:37px; height:37px; border-radius:50%; background:var(--forest); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:var(--serif);
+    font-weight:600; font-size:15px; flex-shrink:0; z-index:1;
+  }
+  .step-body{
+    background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:14px 18px; flex:1;
+  }
+  .step-body h5{font-size:14.5px; font-weight:700; color:var(--brown-deep); margin-bottom:4px;}
+  .step-body p{font-size:13px; color:var(--ink-soft); line-height:1.55;}
+
+  /* ---------- JURNAL / REFERENCES ---------- */
+  .jurnal-block{margin-top:28px; max-width:640px;}
+  .jurnal-block h3{
+    font-family:var(--serif); font-weight:600; font-size:18px; color:var(--forest-deep); margin-bottom:4px;
+  }
+  .jurnal-block .sub{font-size:13px; color:var(--ink-soft); margin-bottom:16px;}
+  .jurnal-list{display:flex; flex-direction:column; gap:10px;}
+  .jurnal-card{
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:14px 16px;
+  }
+  .jurnal-card .jicon{
+    width:34px; height:34px; border-radius:9px; background:var(--sage-soft); color:var(--forest);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .jurnal-card .jicon svg{width:16px; height:16px;}
+  .jurnal-card .jbody{flex:1;}
+  .jurnal-card .jbody h5{font-size:14px; font-weight:700; color:var(--brown-deep); margin-bottom:2px;}
+  .jurnal-card .jbody .meta{font-size:12px; color:var(--ink-soft); margin-bottom:4px;}
+  .jurnal-card .jbody a{font-size:12.5px; font-weight:700; color:var(--forest); display:inline-flex; align-items:center; gap:4px;}
+  .jurnal-card .jbody a svg{width:12px; height:12px;}
+  .detail-hero h2{
+    font-family:var(--serif); font-weight:600; font-size:clamp(30px,4vw,44px);
+    color:var(--forest-deep); margin-bottom:8px;
+  }
+  .detail-hero .tag{
+    display:inline-block; font-size:12px; font-weight:700; letter-spacing:.05em;
+    text-transform:uppercase; color:var(--brown); background:var(--sage-soft);
+    padding:5px 12px; border-radius:999px; margin-bottom:12px;
+  }
+
+  .detail-tabs{
+    display:flex; gap:8px; margin:40px 0 0; border-bottom:1px solid var(--line);
+    overflow-x:auto;
+  }
+  .detail-tab{
+    padding:12px 6px; margin-right:22px;
+    font-size:14px; font-weight:700; color:var(--ink-soft);
+    border-bottom:2.5px solid transparent;
+    white-space:nowrap;
+  }
+  .detail-tab.active{color:var(--forest-deep); border-color:var(--gold);}
+
+  .detail-panels{padding:34px 0 70px;}
+  .detail-panel{display:none; position:relative; z-index:0;}
+  .detail-panel.active{display:block; animation:fadein .35s ease both;}
+
+  /* hiasan bergerak yang elegan di dalam setiap kolom tab (sejarah, manfaat,
+     cara pembuatan, beli) — samar, tidak ramai, mengambang pelan di belakang teks */
+  .panel-deco{
+    position:absolute; z-index:-1; pointer-events:none;
+    opacity:0.2;
+    animation-name:decoFloat;
+    animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
+  }
+  @media (max-width:880px){ .panel-deco{display:none;} }
+  @media (prefers-reduced-motion:reduce){ .panel-deco{animation:none !important;} }
+
+  /* elemen jamu kecil di dalam ilustrasi Sejarah: uap yang mengepul pelan
+     dan irisan kunyit yang berayun tipis — tetap samar, tidak mengganggu teks */
+  .steam-wisp{ transform-origin:center; animation:steamRise 3.4s ease-in-out infinite; }
+  .steam-wisp.d2{ animation-delay:0.7s; }
+  .steam-wisp.d3{ animation-delay:1.3s; }
+  @keyframes steamRise{
+    0%{ opacity:0.12; transform:translateY(0) scaleY(1); }
+    50%{ opacity:0.5; transform:translateY(-9px) scaleY(1.05); }
+    100%{ opacity:0.05; transform:translateY(-20px) scaleY(1.1); }
+  }
+  .turmeric-spin{ transform-origin:128px 38px; animation:turmericSway 5.5s ease-in-out infinite alternate; }
+  @keyframes turmericSway{
+    0%{ transform:rotate(-9deg); }
+    100%{ transform:rotate(9deg); }
+  }
+  @media (prefers-reduced-motion:reduce){ .steam-wisp, .turmeric-spin{animation:none !important;} }
+
+  /* artikel sejarah (isi kolom "Sejarah" saat data cerita tersedia) */
+  .history-article{max-width:640px; position:relative; z-index:1;}
+  .history-kicker{
+    font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--brown); margin-bottom:6px;
+  }
+  .history-article h4{
+    font-family:var(--serif); font-weight:600; font-size:23px; color:var(--forest-deep);
+    margin-bottom:16px; letter-spacing:-0.005em;
+  }
+  .history-body{border-left:3px solid var(--gold); padding-left:20px;}
+  .history-body p{font-size:14.5px; line-height:1.85; color:var(--ink-soft); margin-bottom:14px; text-align:justify; text-justify:inter-word;}
+  .history-body p:last-child{margin-bottom:0;}
+
+  /* stabilo — sorot bagian penting pada teks sejarah & manfaat */
+  .history-body mark, .benefit-item mark{
+    background:linear-gradient(180deg, transparent 62%, rgba(192,138,62,0.38) 62%);
+    color:var(--brown-deep);
+    font-weight:700;
+    padding:0 2px;
+    border-radius:2px;
+  }
+
+  /* daftar manfaat berpoin (dipakai di panel "Manfaat") */
+  .benefit-list{display:flex; flex-direction:column; gap:20px; max-width:640px;}
+  .benefit-item{border-left:3px solid var(--gold); padding-left:20px;}
+  .benefit-item h5{
+    font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--forest-deep);
+    margin-bottom:8px; display:flex; align-items:center; gap:10px; letter-spacing:-0.005em;
+  }
+  .benefit-num{
+    display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+    width:25px; height:25px; border-radius:50%;
+    background:var(--forest); color:var(--paper);
+    font-family:var(--sans); font-size:12.5px; font-weight:700;
+  }
+  .benefit-item p{
+    font-size:14.5px; line-height:1.85; color:var(--ink-soft); margin:0;
+    text-align:justify; text-justify:inter-word;
+  }
+  .benefit-item .cite{
+    font-size:11px; color:var(--gold); font-weight:700; vertical-align:super; margin-left:2px;
+  }
+  .benefit-note{
+    margin-top:20px; font-size:12.5px; line-height:1.7; color:var(--ink-soft);
+    font-style:italic; text-align:justify; max-width:640px;
+  }
+
+  .empty-state{
+    border:1.5px dashed var(--sage);
+    background:var(--paper);
+    border-radius:var(--radius);
+    padding:40px 32px;
+    text-align:center;
+    color:var(--ink-soft);
+    max-width:640px;
+  }
+  .empty-state svg{width:30px; height:30px; color:var(--sage); margin:0 auto 14px;}
+  .empty-state h4{font-family:var(--serif); color:var(--brown-deep); font-size:18px; margin-bottom:8px;}
+  .empty-state p{font-size:13.5px; line-height:1.6;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-wrap{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px;
+    padding:52px 0 80px; align-items:start;
+  }
+  .contact-info h2{
+    font-family:var(--serif); font-weight:600; font-size:clamp(28px,4vw,38px);
+    color:var(--forest-deep); margin-bottom:14px;
+  }
+  .contact-info p{color:var(--ink-soft); font-size:15px; line-height:1.7; margin-bottom:26px; max-width:420px;}
+  .contact-row{
+    display:flex; gap:14px; align-items:flex-start; margin-bottom:18px;
+  }
+  .contact-row .ic{
+    width:38px; height:38px; border-radius:50%; background:var(--sage-soft);
+    display:flex; align-items:center; justify-content:center; color:var(--forest); flex-shrink:0;
+  }
+  .contact-row .ic svg{width:17px; height:17px;}
+  .contact-row .t{font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+  .contact-row .t b{display:block; color:var(--brown-deep); font-size:14.5px; margin-bottom:2px;}
+
+  form.contact-form{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:32px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .field label{font-size:13px; font-weight:700; color:var(--brown-deep); display:block; margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:12px;
+    padding:12px 14px; font-family:inherit; font-size:14px; color:var(--ink);
+    background:var(--bg); outline:none; transition:border-color .2s ease;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--forest);}
+  .field textarea{resize:vertical; min-height:100px;}
+  .btn-submit{
+    background:var(--forest); color:var(--paper); border:none; border-radius:999px;
+    padding:13px 20px; font-weight:700; font-size:14.5px;
+    transition:background .2s ease;
+  }
+  .btn-submit:hover{background:var(--forest-deep);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:34px 0; text-align:center;
+    color:#9C8E77; font-size:12.5px;
+  }
+
+  /* ---------- AI CHAT ---------- */
+  .ai-fab{
+    position:fixed; bottom:26px; right:26px; z-index:60;
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(135deg, var(--forest), var(--brown));
+    color:#fff; border:none; box-shadow:0 12px 28px -8px rgba(40,53,42,0.55);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .25s ease;
+  }
+  .ai-fab:hover{transform:scale(1.06);}
+  .ai-fab svg{width:26px; height:26px;}
+  .ai-fab .pulse{
+    position:absolute; inset:0; border-radius:50%;
+    border:2px solid var(--gold); opacity:0;
+    animation:pulse 2.6s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{opacity:.55; transform:scale(1);}
+    100%{opacity:0; transform:scale(1.5);}
+  }
+
+  /* ---------- FYP "ADD CONTENT" BUTTON ---------- */
+  /* Lives inside #view-fyp, so it only shows up while that view is active.
+     Placed on the opposite corner from the AI chat button so the two never overlap. */
+  .fyp-add-btn{
+    position:fixed; bottom:26px; left:26px; z-index:60;
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(135deg, var(--gold), var(--brown));
+    color:#fff; border:none; box-shadow:0 12px 28px -8px rgba(74,50,34,0.5);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .25s ease;
+  }
+  .fyp-add-btn:hover{transform:scale(1.06);}
+  .fyp-add-btn svg{width:26px; height:26px;}
+  @media (max-width:880px){
+    .fyp-add-btn{ bottom:22px; left:18px; width:54px; height:54px; }
+  }
+
+  /* ---------- HERBAL FOR YOU — FEED VERTIKAL ALA TIKTOK ---------- */
+  /* Layout saja: setiap .fyp-card adalah satu "slot" video/foto penuh layar,
+     scroll-snap vertikal. Kontennya masih placeholder sampai diisi nanti. */
+  #view-fyp{ height:calc(100dvh - var(--header-h, 72px)); }
+  .fyp-feed{
+    position:relative;
+    height:calc(100dvh - var(--header-h, 72px));
+    max-width:460px;
+    margin:0 auto;
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    background:var(--forest-deep);
+  }
+  .fyp-feed::-webkit-scrollbar{display:none;}
+  @media (max-width:880px){
+    .fyp-feed{ max-width:100%; }
+  }
+
+  .fyp-card{
+    position:relative;
+    height:100%;
+    width:100%;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    overflow:hidden;
+    background:linear-gradient(155deg, var(--forest-deep), var(--brown-deep) 140%);
+  }
+  .fyp-scrim-top, .fyp-scrim-bottom{
+    position:absolute; left:0; right:0; z-index:1; pointer-events:none;
+  }
+  .fyp-scrim-top{ top:0; height:22%; background:linear-gradient(180deg, rgba(20,15,10,0.55), transparent); }
+  .fyp-scrim-bottom{ bottom:0; height:48%; background:linear-gradient(180deg, transparent, rgba(15,12,8,0.8)); }
+
+  .fyp-media{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .fyp-media-placeholder{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    color:rgba(252,249,241,0.55);
+    border:1.5px dashed rgba(252,249,241,0.3);
+    border-radius:20px;
+    padding:34px 30px;
+    max-width:76%;
+    text-align:center;
+  }
+  .fyp-media-placeholder svg{ width:32px; height:32px; }
+  .fyp-media-placeholder span{ font-size:13px; font-weight:600; line-height:1.5; }
+
+  .fyp-top-row{
+    position:absolute; top:14px; left:14px; right:64px; z-index:2;
+    display:flex; align-items:center; gap:10px;
+  }
+  .fyp-avatar{
+    width:36px; height:36px; border-radius:50%; flex-shrink:0;
+    border:1.5px dashed rgba(252,249,241,0.4);
+    background:rgba(252,249,241,0.08);
+  }
+  .fyp-username{ color:#FCF9F1; font-size:13.5px; font-weight:700; }
+  .fyp-follow-btn{
+    margin-left:auto; flex-shrink:0;
+    border:1.5px solid rgba(252,249,241,0.55);
+    background:transparent; color:#FCF9F1;
+    font-size:11.5px; font-weight:700;
+    padding:6px 13px; border-radius:999px;
+  }
+
+  .fyp-actions{
+    position:absolute; right:10px; bottom:104px; z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+  }
+  .fyp-action-btn{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    background:none; border:none; color:#FCF9F1; padding:0;
+  }
+  .fyp-action-btn svg{ width:25px; height:25px; opacity:.95; }
+  .fyp-action-btn span{ font-size:10.5px; font-weight:600; color:rgba(252,249,241,0.85); }
+
+  .fyp-caption{
+    position:absolute; left:14px; right:80px; bottom:96px; z-index:2;
+    color:#FCF9F1;
+  }
+  @media (max-width:880px){
+    .fyp-caption{ bottom:100px; }
+  }
+  .fyp-caption-text{ font-size:13px; line-height:1.55; color:rgba(252,249,241,0.92); margin-bottom:9px; }
+  .fyp-audio{ display:flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; color:rgba(252,249,241,0.8); }
+  .fyp-audio svg{ width:13px; height:13px; }
+
+  .ai-panel{
+    position:fixed; top:0; right:0; height:100%; width:min(400px, 100vw);
+    background:var(--paper); z-index:70;
+    box-shadow:-18px 0 40px -10px rgba(40,30,15,0.3);
+    display:flex; flex-direction:column;
+    transform:translateX(100%);
+    transition:transform .38s cubic-bezier(.19,1,.22,1);
+  }
+  .ai-panel.open{transform:translateX(0);}
+  .ai-panel-head{
+    padding:20px 20px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:12px;
+    background:linear-gradient(135deg, var(--forest), var(--forest-deep));
+    color:#fff;
+  }
+  .ai-panel-head .ic{
+    width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .ai-panel-head .ic svg{width:19px; height:19px;}
+  .ai-panel-head .txt strong{display:block; font-family:var(--serif); font-size:16.5px;}
+  .ai-panel-head .txt span{font-size:12px; opacity:.8;}
+  .ai-panel-close{
+    margin-left:auto; width:32px; height:32px; border-radius:50%; border:none;
+    background:rgba(255,255,255,0.15); color:#fff; display:flex; align-items:center; justify-content:center;
+  }
+  .ai-panel-close svg{width:15px; height:15px;}
+  .ai-context{
+    padding:10px 20px; font-size:12px; color:var(--brown); background:var(--sage-soft);
+    border-bottom:1px solid var(--line); display:none;
+  }
+  .ai-context.show{display:block;}
+  .ai-messages{
+    flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px;
+  }
+  .msg{max-width:85%; font-size:13.8px; line-height:1.55; padding:11px 15px; border-radius:16px;}
+  .msg.bot{
+    background:var(--sage-soft); color:var(--brown-deep); align-self:flex-start; border-bottom-left-radius:4px;
+  }
+  .msg.bot p{margin:0 0 8px;}
+  .msg.bot p:last-child{margin-bottom:0;}
+  .msg.bot ul{margin:0 0 8px 18px; padding:0;}
+  .msg.bot ul:last-child{margin-bottom:0;}
+  .msg.bot li{margin-bottom:4px;}
+  .msg.bot li:last-child{margin-bottom:0;}
+  .msg.bot strong{color:var(--forest-deep); font-weight:700;}
+  .msg.user{
+    background:var(--forest); color:#fff; align-self:flex-end; border-bottom-right-radius:4px;
+  }
+  .msg.typing{display:flex; gap:4px; align-items:center; padding:14px 16px;}
+  .msg.typing span{width:6px; height:6px; border-radius:50%; background:var(--brown); opacity:.5; animation:blink 1.2s infinite;}
+  .msg.typing span:nth-child(2){animation-delay:.2s;}
+  .msg.typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.3;} 40%{opacity:1;}}
+  .ai-input-row{
+    padding:16px 20px 20px; border-top:1px solid var(--line);
+    display:flex; gap:10px; align-items:center;
+  }
+  .ai-input-row input{
+    flex:1; border:1.5px solid var(--line); border-radius:999px; padding:11px 16px;
+    font-family:inherit; font-size:13.8px; outline:none; background:var(--bg);
+  }
+  .ai-input-row input:focus{border-color:var(--forest);}
+  .ai-send{
+    width:40px; height:40px; border-radius:50%; border:none; background:var(--forest); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .ai-send svg{width:17px; height:17px;}
+  .overlay-scrim{
+    position:fixed; inset:0; background:rgba(40,30,18,0.28); z-index:65;
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .overlay-scrim.show{opacity:1; pointer-events:auto;}
+
+  .toast{
+    position:fixed; bottom:100px; right:26px; z-index:80;
+    background:var(--forest-deep); color:#fff; padding:12px 18px; border-radius:12px;
+    font-size:13px; box-shadow:var(--shadow);
+    transform:translateY(12px); opacity:0; transition:all .3s ease; pointer-events:none;
+  }
+  .toast.show{transform:translateY(0); opacity:1;}
+
+  @media (max-width:760px){
+    nav.main-nav{display:none;}
+    .mobile-nav-toggle{display:flex;}
+    .mood-grid{grid-template-columns:1fr;}
+    .contact-wrap{grid-template-columns:1fr;}
+    .detail-hero{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= DEKORASI LATAR NUSANTARA ================= -->
+<div class="deco-bg" aria-hidden="true">
+
+  <!-- motif batik parang di sudut kiri-atas & kanan-bawah -->
+  <svg class="deco-corner tl" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="var(--brown)" stroke-width="2.2" fill="none">
+      <path d="M0 50 C60 -10 120 110 180 50 C240 -10 270 20 300 -10"/>
+      <path d="M0 100 C60 40 120 160 180 100 C240 40 270 70 300 40"/>
+      <path d="M0 150 C60 90 120 210 180 150 C240 90 270 120 300 90"/>
+      <path d="M0 200 C60 140 120 260 180 200 C240 140 270 170 300 140"/>
+    </g>
+  </svg>
+  <svg class="deco-corner br" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="var(--brown)" stroke-width="2.2" fill="none">
+      <path d="M0 50 C60 -10 120 110 180 50 C240 -10 270 20 300 -10"/>
+      <path d="M0 100 C60 40 120 160 180 100 C240 40 270 70 300 40"/>
+      <path d="M0 150 C60 90 120 210 180 150 C240 90 270 120 300 90"/>
+      <path d="M0 200 C60 140 120 260 180 200 C240 140 270 170 300 140"/>
+    </g>
+  </svg>
+
+  <!-- sulur (vine) flourish, samar, dekat hero -->
+  <svg class="deco-float hide-mobile" style="top:8%; left:2%; width:130px; opacity:0.14; --r0:-2deg; --r1:2deg; animation-duration:11s;" viewBox="0 0 200 60">
+    <path d="M5 50 C40 10 80 60 120 20 C150 -5 175 30 195 10" stroke="var(--sage)" stroke-width="2" fill="none"/>
+    <circle cx="40" cy="25" r="4" fill="var(--forest)"/>
+    <circle cx="100" cy="40" r="4" fill="var(--forest)"/>
+    <circle cx="160" cy="15" r="4" fill="var(--forest)"/>
+  </svg>
+
+  <!-- daun-daun mengambang -->
+  <svg class="deco-float" style="top:16%; left:5%; width:44px; --r0:-6deg; --r1:8deg; animation-duration:8s;" viewBox="0 0 60 90">
+    <path d="M30 2 C55 20 55 60 30 88 C5 60 5 20 30 2Z" fill="var(--forest)"/>
+    <path d="M30 10 L30 80" stroke="var(--forest-deep)" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+  <svg class="deco-float hide-mobile" style="top:38%; right:4%; width:52px; --r0:6deg; --r1:-6deg; animation-duration:9.5s; animation-delay:.6s;" viewBox="0 0 60 90">
+    <path d="M30 2 C55 20 55 60 30 88 C5 60 5 20 30 2Z" fill="var(--sage)"/>
+    <path d="M30 10 L30 80" stroke="var(--forest-deep)" stroke-width="1.2" opacity="0.4"/>
+  </svg>
+  <svg class="deco-float" style="bottom:12%; left:3.5%; width:38px; --r0:-8deg; --r1:4deg; animation-duration:7.5s; animation-delay:1.2s;" viewBox="0 0 60 90">
+    <path d="M30 2 C55 20 55 60 30 88 C5 60 5 20 30 2Z" fill="var(--forest)"/>
+  </svg>
+
+  <!-- bunga kamboja (frangipani) -->
+  <svg class="deco-float" style="top:6%; right:6%; width:58px; --r0:0deg; --r1:14deg; animation-duration:10s;" viewBox="0 0 100 100">
+    <g fill="var(--gold)">
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(0 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(72 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(144 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(216 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(288 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="8" fill="var(--brown)"/>
+  </svg>
+  <svg class="deco-float hide-mobile" style="bottom:22%; right:3%; width:46px; --r0:10deg; --r1:-4deg; animation-duration:12s; animation-delay:.8s;" viewBox="0 0 100 100">
+    <g fill="var(--gold)" opacity="0.9">
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(0 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(72 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(144 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(216 50 50)"/>
+      <ellipse cx="50" cy="20" rx="10" ry="26" transform="rotate(288 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="8" fill="var(--brown-deep)"/>
+  </svg>
+
+  <!-- kembang sepatu (hibiscus) -->
+  <svg class="deco-float hide-mobile" style="top:58%; left:2.5%; width:56px; --r0:-4deg; --r1:6deg; animation-duration:9s; animation-delay:.4s;" viewBox="0 0 100 100">
+    <g fill="var(--brown)" opacity="0.85">
+      <ellipse cx="50" cy="28" rx="14" ry="22" transform="rotate(0 50 50)"/>
+      <ellipse cx="50" cy="28" rx="14" ry="22" transform="rotate(72 50 50)"/>
+      <ellipse cx="50" cy="28" rx="14" ry="22" transform="rotate(144 50 50)"/>
+      <ellipse cx="50" cy="28" rx="14" ry="22" transform="rotate(216 50 50)"/>
+      <ellipse cx="50" cy="28" rx="14" ry="22" transform="rotate(288 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="7" fill="var(--gold)"/>
+    <line x1="50" y1="45" x2="50" y2="10" stroke="var(--brown-deep)" stroke-width="2"/>
+    <circle cx="50" cy="8" r="3" fill="var(--gold)"/>
+  </svg>
+
+  <!-- padi (rice stalk) -->
+  <svg class="deco-float hide-mobile" style="bottom:6%; right:8%; width:30px; --r0:-3deg; --r1:5deg; animation-duration:10.5s; animation-delay:1s;" viewBox="0 0 40 100">
+    <path d="M20 95 C20 60 20 30 20 5" stroke="var(--brown)" stroke-width="2" fill="none"/>
+    <g fill="var(--gold)">
+      <ellipse cx="14" cy="15" rx="4" ry="7" transform="rotate(-30 14 15)"/>
+      <ellipse cx="26" cy="20" rx="4" ry="7" transform="rotate(30 26 20)"/>
+      <ellipse cx="12" cy="28" rx="4" ry="7" transform="rotate(-30 12 28)"/>
+      <ellipse cx="28" cy="33" rx="4" ry="7" transform="rotate(30 28 33)"/>
+      <ellipse cx="14" cy="41" rx="4" ry="7" transform="rotate(-25 14 41)"/>
+    </g>
+  </svg>
+  <svg class="deco-float hide-mobile" style="top:78%; left:6%; width:26px; --r0:4deg; --r1:-3deg; animation-duration:8.5s; animation-delay:1.6s;" viewBox="0 0 40 100">
+    <path d="M20 95 C20 60 20 30 20 5" stroke="var(--brown)" stroke-width="2" fill="none"/>
+    <g fill="var(--gold)">
+      <ellipse cx="14" cy="15" rx="4" ry="7" transform="rotate(-30 14 15)"/>
+      <ellipse cx="26" cy="20" rx="4" ry="7" transform="rotate(30 26 20)"/>
+      <ellipse cx="12" cy="28" rx="4" ry="7" transform="rotate(-30 12 28)"/>
+      <ellipse cx="28" cy="33" rx="4" ry="7" transform="rotate(30 28 33)"/>
+    </g>
+  </svg>
+
+  <!-- kupu-kupu (butterfly) -->
+  <svg class="deco-float deco-butterfly hide-mobile" style="top:26%; right:12%; width:36px; opacity:0.2; animation-duration:6s;" viewBox="0 0 60 50">
+    <path d="M30 25 C20 5 0 5 4 22 C6 32 20 30 30 25Z" fill="var(--sage)"/>
+    <path d="M30 25 C40 5 60 5 56 22 C54 32 40 30 30 25Z" fill="var(--sage)"/>
+    <path d="M30 25 C20 45 0 45 4 30" fill="var(--forest)" opacity="0.85"/>
+    <path d="M30 25 C40 45 60 45 56 30" fill="var(--forest)" opacity="0.85"/>
+    <line x1="30" y1="10" x2="30" y2="40" stroke="var(--brown-deep)" stroke-width="2"/>
+  </svg>
+
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <img src="data:image/webp;base64,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" alt="Artcaraki logo" class="logo-mark">
+      <span>Artcaraki</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#" class="nav-link active" data-nav="home" data-i18n="nav_home">Beranda</a>
+      <a href="#" class="nav-link" data-nav="fyp" data-i18n="nav_fyp">Herbal For You</a>
+      <a href="#" class="nav-link" data-nav="contact" data-i18n="nav_contact">Contact Us</a>
+    </nav>
+    <div class="header-right">
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Menu" aria-expanded="false" data-i18n-aria="nav_menu_label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="lang-select-wrap">
+        <select class="lang-select" id="langSelect">
+          <option value="id">🇮🇩 ID</option>
+          <option value="en" selected>🇬🇧 EN</option>
+          <option value="ms">🇲🇾 MY</option>
+          <option value="zh">🇨🇳 中文</option>
+          <option value="ko">🇰🇷 한국어</option>
+          <option value="vi">🇻🇳 VI</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <a href="#" class="nav-link active" data-nav="home" data-i18n="nav_home">Beranda</a>
+    <a href="#" class="nav-link" data-nav="fyp" data-i18n="nav_fyp">Herbal For You</a>
+    <a href="#" class="nav-link" data-nav="contact" data-i18n="nav_contact">Contact Us</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HOME VIEW ================= -->
+  <section class="view active" id="view-home">
+    <div class="container">
+      <div class="hero">
+        <div class="eyebrow hero-eyebrow" data-i18n="hero_eyebrow">Warisan Herbal Nusantara</div>
+        <h1 data-i18n="hero_title">Mengenal Warisan Herbal Indonesia lewat <em>ARTCARAKI</em></h1>
+        <p class="sub" data-i18n="hero_sub">Temukan cerita, filosofi, manfaat, dan cara meracik berbagai jamu tradisional sebagai bagian dari kekayaan budaya Nusantara.</p>
+
+        <div class="tree-illustration">
+          <div class="logo-glow-wrap">
+            <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img" data-i18n-aria="logo_aria" aria-label="Logo Artcaraki - pohon daun jamu">
+              <circle cx="110" cy="110" r="94" fill="none" stroke="var(--forest)" stroke-width="13">
+                <animate attributeName="stroke-opacity" values="0.85;1;0.85" dur="4s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- batang -->
+              <g transform="translate(110,182)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="-1 0 0;1 0 0;-1 0 0" dur="6s" repeatCount="indefinite"/>
+                  <path d="M-7,0 C-6,-42 -3,-102 0,-140 C3,-102 6,-42 7,0 Z" fill="var(--forest-deep)"/>
+                </g>
+              </g>
+
+              <!-- daun kanan atas kecil -->
+              <g transform="translate(110,60)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="-44 0 0;-52 0 0;-44 0 0" dur="3.4s" begin="0s" repeatCount="indefinite"/>
+                  <g transform="scale(0.52)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <!-- daun kiri atas kecil -->
+              <g transform="translate(110,60)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="224 0 0;232 0 0;224 0 0" dur="3.4s" begin="0.4s" repeatCount="indefinite"/>
+                  <g transform="scale(0.52)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+
+              <!-- daun kanan level 2 -->
+              <g transform="translate(110,96)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="-14 0 0;-22 0 0;-14 0 0" dur="3.8s" begin="0.6s" repeatCount="indefinite"/>
+                  <g transform="scale(0.72)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <!-- daun kiri level 2 -->
+              <g transform="translate(110,96)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="194 0 0;202 0 0;194 0 0" dur="3.8s" begin="1s" repeatCount="indefinite"/>
+                  <g transform="scale(0.72)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+
+              <!-- daun kanan level 3 -->
+              <g transform="translate(110,130)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="2 0 0;10 0 0;2 0 0" dur="4.2s" begin="0.2s" repeatCount="indefinite"/>
+                  <g transform="scale(0.88)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <!-- daun kiri level 3 -->
+              <g transform="translate(110,130)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="170 0 0;178 0 0;170 0 0" dur="4.2s" begin="0.8s" repeatCount="indefinite"/>
+                  <g transform="scale(0.88)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+
+              <!-- daun kanan bawah, terbesar -->
+              <g transform="translate(110,160)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="22 0 0;30 0 0;22 0 0" dur="4.6s" begin="1.2s" repeatCount="indefinite"/>
+                  <g transform="scale(1.05)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <!-- daun kiri bawah, terbesar -->
+              <g transform="translate(110,160)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="150 0 0;158 0 0;150 0 0" dur="4.6s" begin="0.5s" repeatCount="indefinite"/>
+                  <g transform="scale(1.05)">
+                    <path d="M0,0 C14,-13 34,-13 50,0 C34,13 14,13 0,0 Z" fill="var(--forest)"/>
+                    <g stroke="var(--paper)" stroke-width="1.6" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke">
+                      <path d="M4,0 L44,0"/><path d="M12,-3 L20,-9"/><path d="M22,-2 L29,-7"/><path d="M12,3 L20,9"/><path d="M22,2 L29,7"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="searchbar">
+          <button class="icon-btn" id="micBtn" data-i18n-aria="voice_search_label" data-i18n-title="voice_search_label" title="Voice search" aria-label="Voice search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg>
+          </button>
+          <input type="text" id="searchInput" data-i18n-ph="search_placeholder" placeholder="Cari bahan herbal, ramuan, atau khasiat…">
+          <button class="icon-btn" id="lensBtn" data-i18n-aria="camera_search_label" data-i18n-title="camera_search_label" title="Cari dengan foto (kamera)" aria-label="Camera search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.5h7l1 1.5H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          </button>
+          <button class="icon-btn" id="galleryBtn" data-i18n-aria="gallery_search_label" data-i18n-title="gallery_search_label" title="Pilih dari galeri" aria-label="Gallery search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="8.5" cy="10" r="1.6"/><path d="m5 17 4.5-5 3 3.2L16 11l4 5.5"/></svg>
+          </button>
+          <button class="icon-btn primary" id="searchGo" data-i18n-aria="search_button_label" data-i18n-title="search_button_label" title="Cari" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+          <input type="file" id="galleryInput" accept="image/*" style="display:none">
+        </div>
+        <p class="search-hint" data-i18n="search_hint">Temukan berbagai jamu tradisional Indonesia hanya dengan satu pencarian.</p>
+      </div>
+
+      <div class="mood-section">
+        <div class="mood-head">
+          <div class="eyebrow" data-i18n="mood_eyebrow">Rekomendasi Untukmu</div>
+          <h2 data-i18n="mood_title">Bagaimana perasaanmu hari ini?</h2>
+          <p data-i18n="mood_sub">Kami akan membantumu menemukan jamu yang tepat untuk kebutuhanmu.</p>
+        </div>
+        <div class="mood-grid" id="moodGrid"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2 data-i18n="cat_title">Jelajahi Kategori</h2>
+            <p data-i18n="cat_sub">Pilih kategori untuk mulai menjelajahi kekayaan herbal Nusantara.</p>
+          </div>
+        </div>
+        <div class="cat-grid" id="categoryGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CATEGORY: HERBAL DRINK LIST ================= -->
+  <section class="view" id="view-category-drink">
+    <div class="container">
+      <div class="back-bar">
+        <button class="back-btn" data-back="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+          <span data-i18n="back_home">Beranda</span>
+        </button>
+        <span class="crumb">/ <b data-i18n="drink_crumb">Herbal Drink</b></span>
+      </div>
+      <div class="subcat-hero">
+        <div class="eyebrow" data-i18n="drink_eyebrow">Herbal Drink</div>
+        <h2 data-i18n="drink_title">Minuman Herbal Nusantara</h2>
+        <p data-i18n="drink_sub">Pilih salah satu ramuan untuk melihat sejarah, cara pembuatan, dan tempat membelinya.</p>
+      </div>
+      <div class="item-grid" id="drinkGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= GENERIC "COMING SOON" CATEGORY ================= -->
+  <section class="view" id="view-category-generic">
+    <div class="container">
+      <div class="back-bar">
+        <button class="back-btn" data-back="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+          <span data-i18n="back_home">Beranda</span>
+        </button>
+        <span class="crumb">/ <b id="genericCrumb">Kategori</b></span>
+      </div>
+      <div class="subcat-hero" style="padding-bottom:60px;">
+        <div class="eyebrow" id="genericEyebrow">Kategori</div>
+        <h2 id="genericTitle">Kategori Herbal</h2>
+        <div class="empty-state" style="margin-top:26px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20c4.4 0 8-3.6 8-8s-3.6-8-8-8-8 3.6-8 8 3.6 8 8 8Z"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+          <h4 data-i18n="coming_soon_title">Konten belum diisi</h4>
+          <p data-i18n="coming_soon_text">Kamu bisa menambahkan sub-kategori, produk, dan konten untuk bagian ini kapan saja.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HERBAL FOR YOU (FYP) ================= -->
+  <!-- Feed vertikal ala TikTok: satu video/foto penuh layar per scroll-snap.
+       Isi kontennya belum ada — tinggal isi array FYP_FEED di JS dengan
+       data video/gambar/caption asli nanti, layout & interaksi sudah siap. -->
+  <section class="view" id="view-fyp">
+    <div class="fyp-feed" id="fypFeed"></div>
+    <button class="fyp-add-btn" id="fypAddBtn" aria-label="Tambah konten" data-i18n-aria="fyp_add_aria">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </section>
+
+  <!-- ================= HERB DETAIL VIEW ================= -->
+  <section class="view" id="view-detail">
+    <div class="container">
+      <div class="back-bar">
+        <button class="back-btn" data-back="category-drink">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+          <span data-i18n="back_drink">Herbal Drink</span>
+        </button>
+        <span class="crumb">/ <b id="detailCrumb">Nama Herbal</b></span>
+      </div>
+
+      <div class="detail-hero">
+        <div class="thumb-lg photo-slot" id="detailPhotoSlot">
+          <img id="detailImage" src="" alt="" onerror="this.style.display='none'; document.getElementById('detailPhotoFallback').style.display='flex';">
+          <div class="photo-fallback" id="detailPhotoFallback" style="display:none;"></div>
+        </div>
+        <div>
+          <span class="tag" id="detailTag">Herbal Drink</span>
+          <h2 id="detailTitle">Wedang Uwuh</h2>
+          <p id="detailDesc" style="color:var(--ink-soft); font-size:14.5px; max-width:520px; line-height:1.6;">Deskripsi singkat akan tampil di sini.</p>
+        </div>
+      </div>
+
+      <div class="ingredients-block" id="ingredientsBlock">
+        <h3 data-i18n="ingredients_title">Bahan-Bahan</h3>
+        <p class="sub" data-i18n="ingredients_sub">Bahan-bahan alami yang digunakan dalam ramuan ini.</p>
+        <div class="ingredients-grid" id="ingredientsGrid"></div>
+      </div>
+
+      <div class="detail-tabs">
+        <button class="detail-tab active" data-tab="sejarah" data-i18n="tab_history">Sejarah</button>
+        <button class="detail-tab" data-tab="manfaat" data-i18n="tab_benefits">Manfaat</button>
+        <button class="detail-tab" data-tab="cara" data-i18n="tab_howto">Cara Pembuatan</button>
+      </div>
+      <div class="detail-panels">
+        <div class="detail-panel active" id="panel-sejarah">
+          <svg class="panel-deco" aria-hidden="true" style="top:-10px; right:6px; width:150px; --r0:-2deg; --r1:2deg; animation-duration:11s;" viewBox="0 0 160 170">
+            <path d="M55 70 L105 70 L98 150a10 10 0 0 1-10 9H67a10 10 0 0 1-10-9Z" fill="var(--paper)" stroke="var(--brown)" stroke-width="2.2"/>
+            <path d="M60 92 L100 92 L94 148a8 8 0 0 1-8 7H74a8 8 0 0 1-8-7Z" fill="var(--gold)" opacity="0.55"/>
+            <path d="M55 70h50" stroke="var(--brown)" stroke-width="2.2"/>
+            <g class="turmeric-spin">
+              <circle cx="128" cy="38" r="14" fill="var(--gold)" opacity="0.45"/>
+              <circle cx="128" cy="38" r="14" fill="none" stroke="var(--brown)" stroke-width="1.3"/>
+              <path d="M128 26v24M116 38h24M120 30l16 16M120 46l16-16" stroke="var(--brown)" stroke-width="0.9" opacity="0.5"/>
+            </g>
+            <path class="steam-wisp" d="M68 66c-4-9 5-15 1-24" stroke="var(--sage)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <path class="steam-wisp d2" d="M80 66c-4-10 6-17 1-27" stroke="var(--sage)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <path class="steam-wisp d3" d="M92 66c-4-9 5-15 1-24" stroke="var(--sage)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div id="historyContent"></div>
+        </div>
+        <div class="detail-panel" id="panel-manfaat">
+          <svg class="panel-deco" aria-hidden="true" style="top:-6px; right:2px; width:118px; --r0:-4deg; --r1:5deg; animation-duration:9s;" viewBox="0 0 120 120">
+            <path d="M60 6 C90 24 96 66 60 100 C24 66 30 24 60 6Z" fill="var(--sage)" opacity="0.55"/>
+            <path d="M60 6 L60 100" stroke="var(--forest-deep)" stroke-width="1.2" opacity="0.35"/>
+            <path d="M30 40 C46 46 46 76 24 90 C6 74 10 50 30 40Z" fill="var(--forest)" opacity="0.4"/>
+          </svg>
+          <div id="benefitsContent"></div>
+          <div class="jurnal-block">
+            <h3 data-i18n="jurnal_title">Jurnal &amp; Referensi</h3>
+            <p class="sub" data-i18n="jurnal_sub">Cantumkan sumber penelitian yang mendukung manfaat di atas.</p>
+            <div class="jurnal-list" id="jurnalList"></div>
+          </div>
+        </div>
+        <div class="detail-panel" id="panel-cara">
+          <svg class="panel-deco" aria-hidden="true" style="top:-2px; right:6px; width:120px; --r0:-3deg; --r1:3deg; animation-duration:8s;" viewBox="0 0 120 140">
+            <path d="M40 60 C30 45 50 35 42 20" stroke="var(--gold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M62 60 C52 45 72 35 64 18" stroke="var(--brown)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M84 60 C74 45 94 35 86 22" stroke="var(--gold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M20 68 h84 l-8 46a10 10 0 0 1-10 8H38a10 10 0 0 1-10-8Z" fill="var(--paper)" stroke="var(--brown)" stroke-width="2.2"/>
+          </svg>
+          <div class="serving-info" id="servingInfo"></div>
+          <div class="steps-list" id="stepsList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT VIEW ================= -->
+  <section class="view" id="view-contact">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="contact-info">
+          <div class="eyebrow" data-i18n="contact_eyebrow">Contact Us</div>
+          <h2 data-i18n="contact_title">Ada Pertanyaan Tentang Herbal Nusantara?</h2>
+          <p data-i18n="contact_sub">Hubungi kami untuk pemesanan, kolaborasi, maupun pertanyaan seputar produk herbal Artcaraki.</p>
+
+          <div class="contact-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></div>
+            <div class="t"><b data-i18n="contact_ig_label">Instagram</b><span data-i18n="contact_ig_value">artcaraki.id</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></div>
+            <div class="t"><b data-i18n="contact_phone_label">Telepon</b><span data-i18n="contact_phone_value">0813-9052-2655</span></div>
+          </div>
+          <div class="contact-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg></div>
+            <div class="t"><b data-i18n="contact_addr_label">Alamat</b><span data-i18n="contact_addr_value">Universitas Ciputra, Surabaya, Indonesia</span></div>
+          </div>
+        </div>
+
+        <form class="contact-form" onsubmit="return false;">
+          <div class="field">
+            <label data-i18n="form_name">Nama</label>
+            <input type="text" data-i18n-ph="form_name_ph" placeholder="Nama lengkap kamu">
+          </div>
+          <div class="field">
+            <label data-i18n="form_email">Email</label>
+            <input type="email" data-i18n-ph="form_email_ph" placeholder="nama@email.com">
+          </div>
+          <div class="field">
+            <label data-i18n="form_message">Pesan</label>
+            <textarea data-i18n-ph="form_message_ph" placeholder="Tulis pesan kamu di sini…"></textarea>
+          </div>
+          <button class="btn-submit" type="submit" data-i18n="form_send">Kirim Pesan</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <span data-i18n="footer_text">© 2026 Artcaraki — Melestarikan Warisan Herbal Indonesia.</span>
+  </div>
+</footer>
+
+<!-- ================= AI CHAT ================= -->
+<div class="overlay-scrim" id="scrim"></div>
+<button class="ai-fab" id="aiFab" data-i18n-aria="ai_fab_aria" aria-label="Buka AI Chat">
+  <span class="pulse"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c-4.4 0-8 3.1-8 7 0 2.2 1.1 4.1 2.9 5.4L6 20l4-1.7c.6.1 1.3.2 2 .2 4.4 0 8-3.1 8-7s-3.6-7.5-8-7.5Z"/><circle cx="9" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-head">
+    <div class="ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 3c-4.4 0-8 3.1-8 7 0 2.2 1.1 4.1 2.9 5.4L6 20l4-1.7c.6.1 1.3.2 2 .2 4.4 0 8-3.1 8-7s-3.6-7.5-8-7.5Z"/></svg>
+    </div>
+    <div class="txt">
+      <strong data-i18n="ai_title">Tanya AI Artcaraki</strong>
+      <span data-i18n="ai_subtitle">Tanyakan apa saja soal bahan herbal</span>
+    </div>
+    <button class="ai-panel-close" id="aiClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="ai-context" id="aiContext"></div>
+  <div class="ai-messages" id="aiMessages"></div>
+  <div class="ai-input-row">
+    <input type="text" id="aiInput" data-i18n-ph="ai_input_ph" placeholder="Tulis pertanyaanmu…">
+    <button class="ai-send" id="aiSend">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7Z"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ I18N ============ */
+const I18N = {
+  id: {
+    nav_home:"Beranda", nav_fyp:"Herbal For You", nav_contact:"Contact Us", nav_menu_label:"Menu navigasi",
+    fyp_eyebrow:"Herbal For You", fyp_title:"Herbal For You",
+    fyp_sub:"Konten dan kreasi dari komunitas akan tampil di sini.",
+    fyp_add_aria:"Tambah konten", fyp_toast_upload:"Fitur unggah konten akan segera hadir",
+    hero_eyebrow:"Warisan Herbal Nusantara",
+    hero_title:'Mengenal Warisan Herbal Indonesia lewat <em>Artcaraki</em>',
+    hero_sub:"Temukan cerita, filosofi, manfaat, dan cara meracik berbagai jamu tradisional sebagai bagian dari kekayaan budaya Nusantara.",
+    search_placeholder:"Cari bahan herbal, ramuan, atau khasiat…",
+    search_hint:"Temukan berbagai jamu tradisional Indonesia hanya dengan satu pencarian.",
+    feat1_title:"Manfaat Kesehatan", feat1_desc:"Temukan khasiat tanaman herbal Indonesia yang telah dipercaya turun-temurun.",
+    feat2_title:"Warisan & Sejarah", feat2_desc:"Pelajari asal-usul budaya dan cerita di balik setiap resep herbal.",
+    feat3_title:"Panduan Penggunaan", feat3_desc:"Ikuti panduan langkah demi langkah untuk meracik dan menggunakan herbal dengan aman.",
+    feat4_title:"Produk Lokal", feat4_desc:"Temukan produk herbal berkualitas dari petani dan produsen lokal.",
+    mood_eyebrow:"Rekomendasi Untukmu", mood_title:"Bagaimana perasaanmu hari ini?",
+    mood_sub:"Kami akan membantumu menemukan jamu yang tepat untuk kebutuhanmu.",
+    mood_cta:"Jelajahi Lebih Dalam", min_suffix:"menit",
+    diff_easy:"Mudah", diff_medium:"Sedang", diff_hard:"Sulit",
+    cat_title:"Jelajahi Kategori", cat_sub:"Pilih kategori untuk mulai menjelajahi kekayaan herbal Nusantara.",
+    back_home:"Beranda", back_drink:"Herbal Drink",
+    drink_crumb:"Herbal Drink", drink_eyebrow:"Herbal Drink", drink_title:"Minuman Herbal Nusantara",
+    drink_sub:"Pilih salah satu ramuan untuk melihat sejarah, cara pembuatan, dan tempat membelinya.",
+    coming_soon_title:"Konten belum diisi", coming_soon_text:"Kamu bisa menambahkan sub-kategori, produk, dan konten untuk bagian ini kapan saja.",
+    tab_history:"Sejarah", tab_benefits:"Manfaat", tab_howto:"Cara Pembuatan", tab_where:"Yuk, Beli di Sini!",
+    photo_placeholder:"Ganti gambar di sini", ingredients_title:"Bahan-Bahan", ingredients_sub:"Bahan-bahan alami yang digunakan dalam ramuan ini.",
+    empty_history_title:"Sejarah belum ditambahkan", empty_history_text:"Tulis cerita dan asal-usul ramuan ini di sini nanti.",
+    empty_benefits_title:"Manfaat belum ditambahkan", empty_benefits_text:"Tulis manfaat dan khasiat dari ramuan ini di sini nanti.",
+    jurnal_title:"Jurnal & Referensi", jurnal_sub:"Cantumkan sumber penelitian yang mendukung manfaat di atas.", jurnal_read:"Baca selengkapnya",
+    empty_howto_title:"Cara pembuatan belum ditambahkan", empty_howto_text:"Tambahkan langkah-langkah dan bahan yang dibutuhkan di sini nanti.",
+    empty_where_title:"Yuk, cari tahu di sini belinya!", empty_where_text:"Cantumkan toko, marketplace, atau lokasi pembelian favoritmu di sini.",
+    contact_eyebrow:"Contact Us", contact_title:"Ada Pertanyaan Tentang Herbal Nusantara?",
+    contact_sub:"Hubungi kami untuk pemesanan, kolaborasi, maupun pertanyaan seputar produk herbal Artcaraki.",
+    contact_ig_label:"Instagram", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"Telepon", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"Alamat", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"Nama", form_name_ph:"Nama lengkap kamu",
+    form_email:"Email", form_email_ph:"nama@email.com",
+    form_message:"Pesan", form_message_ph:"Tulis pesan kamu di sini…",
+    form_send:"Kirim Pesan",
+    footer_text:"© 2026 Artcaraki — Melestarikan Warisan Herbal Indonesia.",
+    ai_title:"Tanya AI Artcaraki", ai_subtitle:"Tanyakan apa saja soal bahan herbal", ai_input_ph:"Tulis pertanyaanmu…",
+    ai_greeting:"Halo! Aku asisten AI Artcaraki 🌿 Tanyakan apa saja tentang bahan herbal Nusantara, khasiatnya, atau cara pengolahannya.",
+    explore_label:"Jelajahi", view_details_label:"Lihat detail",
+    img_selected:"Gambar dipilih: ", searching:"Mencari: ",
+    search_not_found:"Tidak ditemukan hasil untuk: ",
+    voice_not_supported:"Pencarian suara tidak didukung di browser ini.", listening:"Mendengarkan…",
+    voice_error:"Suara tidak terdengar — coba lagi.", ai_context_prefix:"Sedang membahas: ",
+    ai_error:"Terjadi kesalahan. Silakan coba lagi.", speech_lang:"id-ID",
+    translating:"Menerjemahkan konten…",
+    voice_search_label:"Pencarian suara", camera_search_label:"Cari dengan foto (kamera)",
+    gallery_search_label:"Pilih dari galeri", search_button_label:"Cari",
+    logo_aria:"Logo Artcaraki - pohon daun jamu", ai_fab_aria:"Buka AI Chat",
+    qa_kunyit_asem_perut_kosong:"Ya, kunyit asem umumnya boleh diminum sebelum sarapan atau saat perut kosong, terutama dalam jumlah yang biasa dipakai untuk minuman tradisional.\n\n- Kunyit mengandung kurkumin, yang bisa memicu ketidaknyamanan ringan seperti mual, perut tidak nyaman, atau asam lambung naik pada sebagian orang\n- Belum ada bukti ilmiah kuat bahwa meminumnya saat perut kosong secara spesifik lebih baik atau lebih buruk\n\nKalau lambungmu sensitif, meminumnya setelah sarapan atau dengan camilan ringan bisa lebih nyaman. Kunyit umumnya dianggap aman dalam jumlah wajar, tapi toleransi tiap orang bisa berbeda."
+  },
+  en: {
+    nav_home:"Home", nav_fyp:"Herbal For You", nav_contact:"Contact Us", nav_menu_label:"Navigation menu",
+    fyp_eyebrow:"Herbal For You", fyp_title:"Herbal For You",
+    fyp_sub:"Content and creations from the community will appear here.",
+    fyp_add_aria:"Add content", fyp_toast_upload:"Content upload is coming soon",
+    hero_eyebrow:"Indonesian Herbal Heritage",
+    hero_title:'Preserving Indonesia\'s Herbal Heritage Through <em>Artcaraki</em>',
+    hero_sub:"Learn the benefits, history, and recipes of traditional Indonesian herbal remedies — guided by AI, presented for today's generation.",
+    search_placeholder:"Search herbal ingredients, recipes, or benefits…",
+    search_hint:"Type, speak, or upload a photo of an herb to start exploring.",
+    feat1_title:"Health Benefits", feat1_desc:"Discover the medicinal properties of Indonesian herbal plants trusted for generations.",
+    feat2_title:"Heritage & History", feat2_desc:"Learn the cultural origins and stories behind every herbal recipe.",
+    feat3_title:"Usage Guide", feat3_desc:"Follow step-by-step guides to prepare and use herbs safely.",
+    feat4_title:"Local Products", feat4_desc:"Find quality herbal products from local farmers and producers.",
+    mood_eyebrow:"Recommended For You", mood_title:"How are you feeling today?",
+    mood_sub:"We'll help you find the right jamu for your needs.",
+    mood_cta:"Explore More", min_suffix:"min",
+    diff_easy:"Easy", diff_medium:"Medium", diff_hard:"Hard",
+    cat_title:"Explore Categories", cat_sub:"Pick a category to start exploring Indonesia's herbal richness.",
+    back_home:"Home", back_drink:"Herbal Drink",
+    drink_crumb:"Herbal Drink", drink_eyebrow:"Herbal Drink", drink_title:"Indonesian Herbal Drinks",
+    drink_sub:"Pick a recipe to see its history, preparation, and where to buy it.",
+    coming_soon_title:"Content not added yet", coming_soon_text:"You can add sub-categories, products, and content for this section anytime.",
+    tab_history:"History", tab_benefits:"Benefits", tab_howto:"How to Make", tab_where:"Get It Here!",
+    photo_placeholder:"Add your photo here", ingredients_title:"Ingredients", ingredients_sub:"Natural ingredients used in this remedy.",
+    empty_history_title:"History not added yet", empty_history_text:"Write the story and origin of this recipe here later.",
+    empty_benefits_title:"Benefits not added yet", empty_benefits_text:"Write the benefits and properties of this recipe here later.",
+    jurnal_title:"Journal & References", jurnal_sub:"List research sources that support the benefits above.", jurnal_read:"Read more",
+    empty_howto_title:"Preparation not added yet", empty_howto_text:"Add the steps and ingredients needed here later.",
+    empty_where_title:"Find where to get it!", empty_where_text:"List your favorite stores, marketplaces, or buying locations here.",
+    contact_eyebrow:"Contact Us", contact_title:"Have a Question About Indonesian Herbs?",
+    contact_sub:"Contact us for orders, collaborations, or questions about Artcaraki's herbal products.",
+    contact_ig_label:"Instagram", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"Phone", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"Address", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"Name", form_name_ph:"Your full name",
+    form_email:"Email", form_email_ph:"name@email.com",
+    form_message:"Message", form_message_ph:"Write your message here…",
+    form_send:"Send Message",
+    footer_text:"© 2026 Artcaraki — Preserving Indonesia's Herbal Heritage.",
+    ai_title:"Ask Artcaraki AI", ai_subtitle:"Ask anything about herbal ingredients", ai_input_ph:"Type your question…",
+    ai_greeting:"Hi! I'm the Artcaraki AI assistant 🌿 Ask me anything about Indonesian herbs, their benefits, or how to prepare them.",
+    explore_label:"Explore", view_details_label:"View details",
+    img_selected:"Image selected: ", searching:"Searching: ",
+    search_not_found:"No results found for: ",
+    voice_not_supported:"Voice search is not supported in this browser.", listening:"Listening…",
+    voice_error:"Couldn't hear that — try again.", ai_context_prefix:"Currently discussing: ",
+    ai_error:"Something went wrong. Please try again.", speech_lang:"en-US",
+    translating:"Translating content…",
+    voice_search_label:"Voice search", camera_search_label:"Search with a photo (camera)",
+    gallery_search_label:"Choose from gallery", search_button_label:"Search",
+    logo_aria:"Artcaraki logo - herbal tree", ai_fab_aria:"Open AI Chat",
+    qa_kunyit_asem_perut_kosong:"Yes, kunyit asam can generally be consumed before breakfast or on an empty stomach, especially in the amounts normally used in traditional beverages.\n\n- Turmeric contains curcumin, which may cause mild discomfort such as nausea, stomach upset, or acid reflux in some people\n- There's no strong scientific evidence that drinking it on an empty stomach specifically is better or worse\n\nIf you have a sensitive stomach, drinking it after breakfast or with a light snack may be more comfortable. Turmeric is generally considered safe when consumed in conventional amounts, but individual tolerance can vary."
+  },
+  ms: {
+    nav_home:"Laman Utama", nav_fyp:"Herbal For You", nav_contact:"Hubungi Kami", nav_menu_label:"Menu navigasi",
+    fyp_eyebrow:"Herbal For You", fyp_title:"Herbal For You",
+    fyp_sub:"Kandungan dan kreasi daripada komuniti akan dipaparkan di sini.",
+    fyp_add_aria:"Tambah kandungan", fyp_toast_upload:"Ciri muat naik kandungan akan hadir tidak lama lagi",
+    hero_eyebrow:"Warisan Herba Indonesia",
+    hero_title:'Menjaga Warisan Herbal Indonesia Melalui <em>Artcaraki</em>',
+    hero_sub:"Temukan cerita, filosofi, manfaat, dan cara meracik berbagai jamu tradisional sebagai bagian dari kekayaan budaya Nusantara.",
+    search_placeholder:"Cari bahan herbal, ramuan, atau khasiat…",
+    search_hint:"Temukan berbagai jamu tradisional Indonesia hanya dengan satu pencarian.",
+    feat1_title:"Manfaat Kesihatan", feat1_desc:"Temui khasiat tumbuhan herba Indonesia yang dipercayai turun-temurun.",
+    feat2_title:"Warisan & Sejarah", feat2_desc:"Ketahui asal usul budaya dan kisah di sebalik setiap resipi herba.",
+    feat3_title:"Panduan Penggunaan", feat3_desc:"Ikuti panduan langkah demi langkah untuk menyediakan herba dengan selamat.",
+    feat4_title:"Produk Tempatan", feat4_desc:"Temui produk herba berkualiti daripada petani tempatan.",
+    mood_eyebrow:"Disyorkan Untuk Anda", mood_title:"Bagaimana perasaan anda hari ini?",
+    mood_sub:"Kami akan membantu anda menemui jamu yang sesuai dengan keperluan anda.",
+    mood_cta:"Terokai Lebih Lanjut", min_suffix:"minit",
+    diff_easy:"Mudah", diff_medium:"Sederhana", diff_hard:"Sukar",
+    cat_title:"Terokai Kategori", cat_sub:"Pilih kategori untuk mula meneroka kekayaan herba Nusantara.",
+    back_home:"Laman Utama", back_drink:"Minuman Herba",
+    drink_crumb:"Minuman Herba", drink_eyebrow:"Minuman Herba", drink_title:"Minuman Herba Nusantara",
+    drink_sub:"Pilih ramuan untuk melihat sejarah, cara membuat, dan tempat membeli.",
+    coming_soon_title:"Kandungan belum ditambah", coming_soon_text:"Anda boleh menambah sub-kategori, produk, dan kandungan untuk bahagian ini pada bila-bila masa.",
+    tab_history:"Sejarah", tab_benefits:"Manfaat", tab_howto:"Cara Membuat", tab_where:"Jom, Beli Di Sini!",
+    photo_placeholder:"Ganti gambar di sini", ingredients_title:"Bahan-Bahan", ingredients_sub:"Bahan-bahan semula jadi yang digunakan dalam ramuan ini.",
+    empty_history_title:"Sejarah belum ditambah", empty_history_text:"Tulis kisah dan asal usul ramuan ini di sini nanti.",
+    empty_benefits_title:"Manfaat belum ditambah", empty_benefits_text:"Tulis manfaat dan khasiat ramuan ini di sini nanti.",
+    jurnal_title:"Jurnal & Rujukan", jurnal_sub:"Senaraikan sumber penyelidikan yang menyokong manfaat di atas.", jurnal_read:"Baca lanjut",
+    empty_howto_title:"Cara membuat belum ditambah", empty_howto_text:"Tambah langkah dan bahan yang diperlukan di sini nanti.",
+    empty_where_title:"Jom, ketahui di mana nak beli!", empty_where_text:"Senaraikan kedai, pasar dalam talian, atau lokasi pembelian kegemaran anda di sini.",
+    contact_eyebrow:"Hubungi Kami", contact_title:"Ada Soalan Tentang Herba Indonesia?",
+    contact_sub:"Hubungi kami untuk pesanan, kerjasama, atau soalan tentang produk herba Artcaraki.",
+    contact_ig_label:"Instagram", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"Telefon", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"Alamat", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"Nama", form_name_ph:"Nama penuh anda",
+    form_email:"E-mel", form_email_ph:"nama@emel.com",
+    form_message:"Mesej", form_message_ph:"Tulis mesej anda di sini…",
+    form_send:"Hantar Mesej",
+    footer_text:"© 2026 Artcaraki — Memelihara Warisan Herba Indonesia.",
+    ai_title:"Tanya AI Artcaraki", ai_subtitle:"Tanya apa sahaja tentang bahan herba", ai_input_ph:"Taip soalan anda…",
+    ai_greeting:"Hai! Saya pembantu AI Artcaraki 🌿 Tanya apa sahaja tentang herba Indonesia.",
+    explore_label:"Jelajahi", view_details_label:"Lihat butiran",
+    img_selected:"Gambar dipilih: ", searching:"Mencari: ",
+    search_not_found:"Tiada hasil ditemui untuk: ",
+    voice_not_supported:"Carian suara tidak disokong dalam pelayar ini.", listening:"Mendengar…",
+    voice_error:"Suara tidak dapat dikesan — cuba lagi.", ai_context_prefix:"Sedang membincangkan: ",
+    ai_error:"Berlaku ralat. Sila cuba lagi.", speech_lang:"ms-MY",
+    translating:"Menterjemah kandungan…",
+    voice_search_label:"Carian suara", camera_search_label:"Cari dengan foto (kamera)",
+    gallery_search_label:"Pilih dari galeri", search_button_label:"Cari",
+    logo_aria:"Logo Artcaraki - pokok daun jamu", ai_fab_aria:"Buka Sembang AI",
+    qa_kunyit_asem_perut_kosong:"Ya, kunyit asam biasanya boleh diminum sebelum sarapan atau semasa perut kosong, terutamanya dalam kuantiti yang biasa digunakan untuk minuman tradisional.\n\n- Kunyit mengandungi kurkumin, yang boleh menyebabkan sedikit ketidakselesaan seperti loya, perut tidak selesa, atau naik asid pada sesetengah orang\n- Tiada bukti saintifik kukuh bahawa meminumnya semasa perut kosong secara khusus adalah lebih baik atau lebih buruk\n\nJika perut anda sensitif, meminumnya selepas sarapan atau bersama snek ringan mungkin lebih selesa. Kunyit umumnya dianggap selamat dalam kuantiti biasa, tetapi toleransi setiap individu boleh berbeza."
+  },
+  zh: {
+    nav_home:"首页", nav_fyp:"为你推荐", nav_contact:"联系我们", nav_menu_label:"导航菜单",
+    fyp_eyebrow:"为你推荐", fyp_title:"为你推荐",
+    fyp_sub:"社区分享的内容将会显示在这里。",
+    fyp_add_aria:"添加内容", fyp_toast_upload:"内容上传功能即将上线",
+    hero_eyebrow:"印尼草药传承",
+    hero_title:'借助<em>Artcaraki</em>守护印尼草药传统',
+    hero_sub:"了解印尼传统草药的功效、历史与制作方法 —— 由 AI 引导，为当代呈现。",
+    search_placeholder:"搜索草药、配方或功效…",
+    search_hint:"输入文字、语音或上传照片，开始探索草药世界。",
+    feat1_title:"健康功效", feat1_desc:"发掘世代相传的印尼草药植物疗效。",
+    feat2_title:"传承与历史", feat2_desc:"了解每一种草药配方背后的文化渊源与故事。",
+    feat3_title:"使用指南", feat3_desc:"按照分步指南安全地制作与使用草药。",
+    feat4_title:"本地产品", feat4_desc:"发现来自本地农户与生产者的优质草药产品。",
+    mood_eyebrow:"为您推荐", mood_title:"你今天感觉怎么样？",
+    mood_sub:"我们将帮助您找到适合自己需求的草药饮品。",
+    mood_cta:"深入了解", min_suffix:"分钟",
+    diff_easy:"简单", diff_medium:"中等", diff_hard:"较难",
+    cat_title:"探索分类", cat_sub:"选择一个分类，开始探索印尼群岛丰富的草药文化。",
+    back_home:"首页", back_drink:"草本饮品",
+    drink_crumb:"草本饮品", drink_eyebrow:"草本饮品", drink_title:"印尼草本饮品",
+    drink_sub:"选择一种配方，查看其历史、制作方法与购买渠道。",
+    coming_soon_title:"内容尚未添加", coming_soon_text:"您可以随时为此部分添加子分类、产品和内容。",
+    tab_history:"历史", tab_benefits:"功效", tab_howto:"制作方法", tab_where:"立即选购！",
+    photo_placeholder:"在此更换图片", ingredients_title:"配料", ingredients_sub:"这道药方所使用的天然食材。",
+    empty_history_title:"尚未添加历史内容", empty_history_text:"稍后在此处撰写这道配方的故事与起源。",
+    empty_benefits_title:"尚未添加功效内容", empty_benefits_text:"稍后在此处撰写这道配方的功效与益处。",
+    jurnal_title:"期刊与参考文献", jurnal_sub:"列出支持上述功效的研究来源。", jurnal_read:"阅读更多",
+    empty_howto_title:"尚未添加制作方法", empty_howto_text:"稍后在此处添加所需步骤与材料。",
+    empty_where_title:"来看看哪里可以买到！", empty_where_text:"稍后在此列出您喜爱的商店、电商平台或购买地点。",
+    contact_eyebrow:"联系我们", contact_title:"对印尼草药有疑问吗？",
+    contact_sub:"请联系我们进行订购、合作，或咨询 Artcaraki 草药产品相关问题。",
+    contact_ig_label:"Instagram", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"电话", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"地址", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"姓名", form_name_ph:"请输入您的姓名",
+    form_email:"邮箱", form_email_ph:"name@email.com",
+    form_message:"留言", form_message_ph:"请输入您的留言…",
+    form_send:"发送留言",
+    footer_text:"© 2026 Artcaraki — 守护印尼草药传统。",
+    ai_title:"咨询 Artcaraki AI", ai_subtitle:"询问任何关于草药的问题", ai_input_ph:"输入您的问题…",
+    ai_greeting:"你好！我是 Artcaraki 的 AI 助手 🌿 欢迎询问关于印尼草药的任何问题。",
+    explore_label:"探索", view_details_label:"查看详情",
+    img_selected:"已选择图片：", searching:"搜索中：",
+    search_not_found:"未找到相关结果：",
+    voice_not_supported:"此浏览器不支持语音搜索。", listening:"正在聆听…",
+    voice_error:"未能识别语音，请再试一次。", ai_context_prefix:"正在讨论：",
+    ai_error:"出现错误，请再试一次。", speech_lang:"zh-CN",
+    translating:"正在翻译内容…",
+    voice_search_label:"语音搜索", camera_search_label:"用照片搜索(相机)",
+    gallery_search_label:"从相册选择", search_button_label:"搜索",
+    logo_aria:"Artcaraki标志 - 草药树", ai_fab_aria:"打开AI聊天",
+    qa_kunyit_asem_perut_kosong:"是的,姜黄罗望子一般可以在早餐前或空腹时饮用,尤其是传统饮品常用的分量。\n\n- 姜黄含有姜黄素,可能会让部分人出现轻微不适,例如恶心、胃部不适或胃酸上升\n- 目前没有强而有力的科学证据表明空腹饮用特别更好或更差\n\n如果你的胃比较敏感,早餐后或搭配轻食饮用可能更舒服。一般认为姜黄在常规摄取量下是安全的,但个人耐受度可能有所不同。"
+  },
+  ko: {
+    nav_home:"홈", nav_fyp:"허브 포 유", nav_contact:"문의하기", nav_menu_label:"내비게이션 메뉴",
+    fyp_eyebrow:"허브 포 유", fyp_title:"허브 포 유",
+    fyp_sub:"커뮤니티의 콘텐츠가 이곳에 표시됩니다.",
+    fyp_add_aria:"콘텐츠 추가", fyp_toast_upload:"콘텐츠 업로드 기능이 곧 제공됩니다",
+    hero_eyebrow:"인도네시아 허브 유산",
+    hero_title:'<em>Artcaraki</em>으로 지키는 인도네시아 허브 유산',
+    hero_sub:"인도네시아 전통 허브의 효능, 역사, 제조법을 AI의 안내로 알아보세요.",
+    search_placeholder:"허브 재료, 레시피, 효능 검색…",
+    search_hint:"입력하거나 말하거나 허브 사진을 업로드해 탐색을 시작하세요.",
+    feat1_title:"건강 효능", feat1_desc:"오랫동안 신뢰받아온 인도네시아 허브 식물의 효능을 알아보세요.",
+    feat2_title:"유산과 역사", feat2_desc:"각 허브 레시피에 담긴 문화적 기원과 이야기를 배워보세요.",
+    feat3_title:"사용 가이드", feat3_desc:"단계별 가이드를 따라 허브를 안전하게 조제하고 사용하세요.",
+    feat4_title:"지역 제품", feat4_desc:"지역 농가와 생산자의 고품질 허브 제품을 만나보세요.",
+    mood_eyebrow:"맞춤 추천", mood_title:"오늘 기분이 어떠세요?",
+    mood_sub:"필요에 맞는 자무를 찾을 수 있도록 도와드릴게요.",
+    mood_cta:"더 알아보기", min_suffix:"분",
+    diff_easy:"쉬움", diff_medium:"보통", diff_hard:"어려움",
+    cat_title:"카테고리 둘러보기", cat_sub:"카테고리를 선택해 인도네시아 허브의 풍부함을 탐색해보세요.",
+    back_home:"홈", back_drink:"허벌 음료",
+    drink_crumb:"허벌 음료", drink_eyebrow:"허벌 음료", drink_title:"인도네시아 허브 음료",
+    drink_sub:"레시피를 선택해 역사, 제조법, 구매처를 확인하세요.",
+    coming_soon_title:"콘텐츠가 아직 없습니다", coming_soon_text:"언제든지 이 섹션에 하위 카테고리, 제품, 콘텐츠를 추가할 수 있습니다.",
+    tab_history:"역사", tab_benefits:"효능", tab_howto:"만드는 법", tab_where:"여기서 구매하기!",
+    photo_placeholder:"여기에 사진을 넣어보세요", ingredients_title:"재료", ingredients_sub:"이 재료에 사용되는 천연 재료입니다.",
+    empty_history_title:"역사 정보가 아직 없습니다", empty_history_text:"나중에 이 레시피의 이야기와 기원을 작성하세요.",
+    empty_benefits_title:"효능 정보가 아직 없습니다", empty_benefits_text:"나중에 이 레시피의 효능과 이점을 작성하세요.",
+    jurnal_title:"저널 및 참고자료", jurnal_sub:"위 효능을 뒷받침하는 연구 자료를 나열하세요.", jurnal_read:"더 읽기",
+    empty_howto_title:"제조법이 아직 없습니다", empty_howto_text:"나중에 필요한 단계와 재료를 추가하세요.",
+    empty_where_title:"어디서 살 수 있는지 알아보세요!", empty_where_text:"나중에 즐겨 찾는 매장, 마켓플레이스, 구매 장소를 나열하세요.",
+    contact_eyebrow:"문의하기", contact_title:"인도네시아 허브에 대해 궁금한 점이 있으신가요?",
+    contact_sub:"주문, 협업, 또는 Artcaraki 허브 제품에 대한 문의는 언제든지 연락해 주세요.",
+    contact_ig_label:"인스타그램", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"전화", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"주소", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"이름", form_name_ph:"이름을 입력하세요",
+    form_email:"이메일", form_email_ph:"name@email.com",
+    form_message:"메시지", form_message_ph:"메시지를 입력하세요…",
+    form_send:"메시지 보내기",
+    footer_text:"© 2026 Artcaraki — 인도네시아 허브 유산을 지킵니다.",
+    ai_title:"Artcaraki AI에게 질문", ai_subtitle:"허브 재료에 대해 무엇이든 물어보세요", ai_input_ph:"질문을 입력하세요…",
+    ai_greeting:"안녕하세요! 저는 Artcaraki AI 어시스턴트예요 🌿 인도네시아 허브에 대해 무엇이든 물어보세요.",
+    explore_label:"둘러보기", view_details_label:"자세히 보기",
+    img_selected:"선택된 이미지: ", searching:"검색 중: ",
+    search_not_found:"검색 결과가 없습니다: ",
+    voice_not_supported:"이 브라우저에서는 음성 검색이 지원되지 않습니다.", listening:"듣는 중…",
+    voice_error:"음성을 인식하지 못했어요 — 다시 시도해 주세요.", ai_context_prefix:"현재 대화 주제: ",
+    ai_error:"문제가 발생했습니다. 다시 시도해 주세요.", speech_lang:"ko-KR",
+    translating:"콘텐츠 번역 중…",
+    voice_search_label:"음성 검색", camera_search_label:"사진으로 검색(카메라)",
+    gallery_search_label:"갤러리에서 선택", search_button_label:"검색",
+    logo_aria:"아트카라키 로고 - 허브 나무", ai_fab_aria:"AI 채팅 열기",
+    qa_kunyit_asem_perut_kosong:"네, 쿠니잇 아셈은 일반적으로 아침 식사 전이나 공복에 마셔도 괜찮아요, 특히 전통 음료에서 흔히 쓰이는 양이라면요.\n\n- 강황에는 커큐민이 들어 있어서 일부 사람에게 메스꺼움, 속 불편함, 위산 역류 같은 가벼운 불편함을 일으킬 수 있어요\n- 공복에 마시는 것이 특별히 더 좋거나 나쁘다는 강력한 과학적 근거는 아직 없어요\n\n위가 예민하다면 아침 식사 후나 가벼운 간식과 함께 마시는 게 더 편할 수 있어요. 강황은 일반적인 섭취량에서는 대체로 안전하다고 여겨지지만, 개인마다 내성은 다를 수 있어요."
+  },
+  vi: {
+    nav_home:"Trang Chủ", nav_fyp:"Herbal For You", nav_contact:"Liên Hệ", nav_menu_label:"Menu điều hướng",
+    fyp_eyebrow:"Herbal For You", fyp_title:"Herbal For You",
+    fyp_sub:"Nội dung từ cộng đồng sẽ xuất hiện ở đây.",
+    fyp_add_aria:"Thêm nội dung", fyp_toast_upload:"Tính năng tải nội dung sẽ sớm ra mắt",
+    hero_eyebrow:"Di Sản Thảo Dược Indonesia",
+    hero_title:'Gìn Giữ Di Sản Thảo Dược Indonesia Bằng <em>Artcaraki</em>',
+    hero_sub:"Tìm hiểu công dụng, lịch sử và cách chế biến các bài thuốc thảo dược truyền thống Indonesia — được hỗ trợ bởi AI.",
+    search_placeholder:"Tìm kiếm nguyên liệu, công thức hoặc công dụng…",
+    search_hint:"Gõ, nói, hoặc tải ảnh thảo dược lên để bắt đầu khám phá.",
+    feat1_title:"Lợi Ích Sức Khỏe", feat1_desc:"Khám phá công dụng của các loại thảo dược Indonesia được tin dùng qua nhiều thế hệ.",
+    feat2_title:"Di Sản & Lịch Sử", feat2_desc:"Tìm hiểu nguồn gốc văn hóa và câu chuyện đằng sau mỗi công thức thảo dược.",
+    feat3_title:"Hướng Dẫn Sử Dụng", feat3_desc:"Làm theo hướng dẫn từng bước để chế biến và sử dụng thảo dược an toàn.",
+    feat4_title:"Sản Phẩm Địa Phương", feat4_desc:"Khám phá các sản phẩm thảo dược chất lượng từ nông dân và nhà sản xuất địa phương.",
+    mood_eyebrow:"Gợi Ý Cho Bạn", mood_title:"Hôm nay bạn cảm thấy thế nào?",
+    mood_sub:"Chúng tôi sẽ giúp bạn tìm loại jamu phù hợp với nhu cầu của mình.",
+    mood_cta:"Khám Phá Thêm", min_suffix:"phút",
+    diff_easy:"Dễ", diff_medium:"Vừa", diff_hard:"Khó",
+    cat_title:"Khám Phá Danh Mục", cat_sub:"Chọn một danh mục để bắt đầu khám phá sự phong phú của thảo dược Indonesia.",
+    back_home:"Trang Chủ", back_drink:"Thức Uống Thảo Dược",
+    drink_crumb:"Thức Uống Thảo Dược", drink_eyebrow:"Thức Uống Thảo Dược", drink_title:"Thức Uống Thảo Dược Indonesia",
+    drink_sub:"Chọn một công thức để xem lịch sử, cách chế biến và nơi mua.",
+    coming_soon_title:"Nội dung chưa được thêm", coming_soon_text:"Bạn có thể thêm danh mục con, sản phẩm và nội dung cho phần này bất cứ lúc nào.",
+    tab_history:"Lịch Sử", tab_benefits:"Công Dụng", tab_howto:"Cách Chế Biến", tab_where:"Mua Ngay Tại Đây!",
+    photo_placeholder:"Thêm ảnh của bạn ở đây", ingredients_title:"Nguyên Liệu", ingredients_sub:"Các nguyên liệu tự nhiên dùng trong bài thuốc này.",
+    empty_history_title:"Chưa có thông tin lịch sử", empty_history_text:"Hãy viết câu chuyện và nguồn gốc của công thức này sau.",
+    empty_benefits_title:"Chưa có thông tin công dụng", empty_benefits_text:"Hãy viết công dụng và lợi ích của công thức này sau.",
+    jurnal_title:"Tạp Chí & Tài Liệu Tham Khảo", jurnal_sub:"Liệt kê các nguồn nghiên cứu hỗ trợ công dụng ở trên.", jurnal_read:"Đọc thêm",
+    empty_howto_title:"Chưa có cách chế biến", empty_howto_text:"Hãy thêm các bước và nguyên liệu cần thiết sau.",
+    empty_where_title:"Khám phá nơi mua ngay!", empty_where_text:"Hãy liệt kê cửa hàng, sàn thương mại điện tử hoặc địa điểm mua yêu thích của bạn sau.",
+    contact_eyebrow:"Liên Hệ", contact_title:"Bạn Có Câu Hỏi Về Thảo Dược Indonesia?",
+    contact_sub:"Liên hệ với chúng tôi để đặt hàng, hợp tác, hoặc có bất kỳ câu hỏi nào về sản phẩm thảo dược của Artcaraki.",
+    contact_ig_label:"Instagram", contact_ig_value:"artcaraki.id",
+    contact_phone_label:"Điện Thoại", contact_phone_value:"0813-9052-2655",
+    contact_addr_label:"Địa Chỉ", contact_addr_value:"Universitas Ciputra, Surabaya, Indonesia",
+    form_name:"Họ Tên", form_name_ph:"Họ tên đầy đủ của bạn",
+    form_email:"Email", form_email_ph:"name@email.com",
+    form_message:"Lời Nhắn", form_message_ph:"Viết lời nhắn của bạn ở đây…",
+    form_send:"Gửi Lời Nhắn",
+    footer_text:"© 2026 Artcaraki — Gìn giữ di sản thảo dược Indonesia.",
+    ai_title:"Hỏi AI Artcaraki", ai_subtitle:"Hỏi bất cứ điều gì về nguyên liệu thảo dược", ai_input_ph:"Nhập câu hỏi của bạn…",
+    ai_greeting:"Xin chào! Tôi là trợ lý AI của Artcaraki 🌿 Hãy hỏi tôi bất cứ điều gì về thảo dược Indonesia.",
+    explore_label:"Khám phá", view_details_label:"Xem chi tiết",
+    img_selected:"Ảnh đã chọn: ", searching:"Đang tìm: ",
+    search_not_found:"Không tìm thấy kết quả cho: ",
+    voice_not_supported:"Trình duyệt này không hỗ trợ tìm kiếm bằng giọng nói.", listening:"Đang lắng nghe…",
+    voice_error:"Không nghe rõ — hãy thử lại.", ai_context_prefix:"Đang thảo luận: ",
+    ai_error:"Đã xảy ra lỗi. Vui lòng thử lại.", speech_lang:"vi-VN",
+    translating:"Đang dịch nội dung…",
+    voice_search_label:"Tìm kiếm bằng giọng nói", camera_search_label:"Tìm bằng ảnh (máy ảnh)",
+    gallery_search_label:"Chọn từ thư viện ảnh", search_button_label:"Tìm kiếm",
+    logo_aria:"Logo Artcaraki - cây thảo dược", ai_fab_aria:"Mở Trò chuyện AI",
+    qa_kunyit_asem_perut_kosong:"Có, kunyit asem thường có thể uống trước bữa sáng hoặc khi bụng đói, đặc biệt là với lượng thường dùng trong đồ uống truyền thống.\n\n- Nghệ chứa curcumin, có thể gây khó chịu nhẹ như buồn nôn, khó chịu dạ dày hoặc trào ngược axit ở một số người\n- Chưa có bằng chứng khoa học mạnh mẽ cho thấy uống khi bụng đói cụ thể là tốt hơn hay tệ hơn\n\nNếu bạn có dạ dày nhạy cảm, uống sau bữa sáng hoặc kèm bữa nhẹ có thể thoải mái hơn. Nghệ thường được coi là an toàn với lượng dùng thông thường, nhưng khả năng dung nạp của mỗi người có thể khác nhau."
+  }
+};
+let currentLang = 'en';
+
+function applyI18n(){
+  const dict = I18N[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-ph');
+    if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-aria');
+    if(dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-title');
+    if(dict[key] !== undefined) el.setAttribute('title', dict[key]);
+  });
+}
+
+document.getElementById('langSelect').addEventListener('change', (e)=>{
+  currentLang = e.target.value;
+  applyI18n();
+  renderCategoryGrid();
+  renderDrinkGrid();
+  renderMoodGrid();
+  if(currentHerb) openDetail(currentHerb.id);
+  updateAiContext();
+  // Jika panel AI sudah menampilkan sapaan tapi user belum mulai chat,
+  // perbarui sapaan itu ke bahasa yang baru dipilih.
+  if(greeted && chatHistory.length === 0 && aiMessages.children.length === 1){
+    aiMessages.innerHTML = '';
+    addMsg('bot', I18N[currentLang].ai_greeting);
+  }
+});
+
+/* ============ DATA ============ */
+const ICONS = {
+  drink: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 21h8"/><path d="M12 21v-6"/><path d="M6 3h12l-1.5 9a4.5 4.5 0 0 1-9 0L6 3Z"/></svg>',
+  jamucup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="9" rx="7.6" ry="2.1"/><path d="M4.4 9c0 3.9 1.1 6.6 3.2 7.8a8.7 8.7 0 0 0 8.8 0c2.1-1.2 3.2-3.9 3.2-7.8"/><ellipse cx="12" cy="18.2" rx="6.4" ry="1.2" opacity="0.55"/></svg>',
+  skincare: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c3 3 5 6 5 9.5A5 5 0 0 1 7 11.5C7 8 9 5 12 2Z"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 20A7 7 0 0 1 4 13V6a1 1 0 0 1 1-1h1a10 10 0 0 1 10 10v1a5 5 0 0 1-5 5Z"/><path d="M4 6c8 0 13 6 13 14"/></svg>',
+  root: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v6"/><path d="M12 8c-3 1-4 4-3 8"/><path d="M12 8c3 1 4 4 3 8"/><path d="M12 8c-1.5 2-1.5 5 0 7"/></svg>',
+  jar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 8h10v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V8Z"/><path d="M9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>',
+  mortar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16l-1.5 5a3 3 0 0 1-3 2h-7a3 3 0 0 1-3-2L4 12Z"/><path d="M12 3v3"/><path d="M9 9c0-2 1.5-4 3-5"/></svg>',
+  flower: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.5"/><path d="M12 3a3 3 0 0 1 0 6 3 3 0 0 1 0-6Z"/><path d="M12 15a3 3 0 0 1 0 6 3 3 0 0 1 0-6Z"/><path d="M3 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0Z"/><path d="M15 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0Z"/></svg>',
+  flame: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c1 3-2.5 4.5-2.5 8a2.5 2.5 0 0 0 5 0c1.5 1 2 2.7 2 4.2A5.5 5.5 0 0 1 5 14.5C5 9 9 6 12 2Z"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20.5S3.5 15.4 3.5 9.6A4.6 4.6 0 0 1 12 6.8a4.6 4.6 0 0 1 8.5 2.8c0 5.8-8.5 10.9-8.5 10.9Z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.8-4.6 6.6-.9 2.9-6Z"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  spice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 20c-2-.6-3.5-2.6-3-5 .7-3.4 4-9.5 8-10.5-1 2 .5 3 1.7 3.6 2 1 3.3 3 2.8 5.4-.6 3-3.4 4.6-6.2 4.3"/><path d="M8.5 20c-1-1.6-1.2-3.6-.2-5.6" /><circle cx="16.3" cy="6.2" r="1.3"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13a1 1 0 0 0 1.5.87l11-6.5a1 1 0 0 0 0-1.74l-11-6.5A1 1 0 0 0 8 5.5Z"/></svg>',
+  comment: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 3.4 6.5L4 20l1.3-3.6A7.96 7.96 0 0 1 4 12Z"/></svg>',
+  share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="M8.2 10.7l7.6-4.4M8.2 13.3l7.6 4.4"/></svg>',
+  bookmark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4.2L5 21V4.5a1 1 0 0 1 1-1Z"/></svg>',
+  music: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 18a3 3 0 1 1-2-2.8V5.5a1 1 0 0 1 .8-1L16 3v3.2l-5 1V15a3 3 0 0 1-2 3Z"/></svg>'
+};
+
+// Ikon khusus per nama bahan (bukan satu ikon daun generik untuk semua).
+// Key harus sama persis dengan "name" pada ingredients di DRINKS (Bahasa Indonesia asli).
+const INGREDIENT_ICONS = {
+  'Kayu Secang': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8.5" width="14" height="5" rx="2.2" transform="rotate(-8 10 11)"/><rect x="7" y="12.5" width="14" height="5" rx="2.2" transform="rotate(-8 14 15)"/><path d="M6 9.5l2 4M17.5 13.5l2 4"/></svg>',
+  'Kayu Manis': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M6.5 9c1.5 2 1.5 4 0 6M10.5 9c1.5 2 1.5 4 0 6M14.5 9c1.5 2 1.5 4 0 6M18 9c1.2 2 1.2 4 0 6"/></svg>',
+  'Daun Kayu Manis': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4.5-2-6.5-6.5-4.8-13.2C14 6.5 18 9.5 18 14a7 7 0 0 1-6 7Z"/><path d="M9.6 8.6c1 4 2 8.4 2.4 12.3M9.6 8.6c-.4 4-.1 8.4 1 12"/></svg>',
+  'Daun & Tangkai Cengkih': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M12 7.5c-3-1.2-5.3.8-5.3 2.8s3 2.8 5.3 1.7"/><path d="M12 12.5c3-1.2 5.3.8 5.3 2.8s-3 2.8-5.3 1.7"/></svg>',
+  'Daun Pala': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c4.2 3 6.3 8 6.3 12.3a6.3 6.3 0 0 1-12.6 0c0-4.3 2.1-9.3 6.3-12.3Z"/><path d="M12 2.5v19"/></svg>',
+  'Serai': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 0-12.5 0-18.5"/><path d="M12 21c-1-6 0-12.5 3.2-17"/><path d="M12 21c1-6 0-12.5-3.2-17"/></svg>',
+  'Gula Batu': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 3.5l4.6 2 3.7 5-2.6 8.7-7.6-1-3.4-6.2 5.3-8.5Z"/><path d="M9.2 3.5l2.3 6.2-2.9 8.7M13.8 5.5l-2.3 4.2 4.6 4.8"/></svg>',
+  'Kapulaga': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c4 0 6.8 4 6.8 8.8s-2.8 8.8-6.8 8.8-6.8-4-6.8-8.8S8 3.2 12 3.2Z"/><path d="M12 3.2v17.6M7.7 8.3c2.7 1.1 5.9 1.1 8.6 0M7.7 15.7c2.7-1.1 5.9-1.1 8.6 0"/></svg>',
+  'Kunyit': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 21c-2.3-5-1.4-11.3 1.8-16.3"/><path d="M15.3 5.3c1.8-.3 2.9.9 2.2 2.5s-2.9.9-2.6-1"/><path d="M11.6 12.6c-2-.1-3.1 1.2-2.2 2.8s3.1.6 2.7-1.2"/><path d="M13 17.2c1.9.5 2.7-.7 2-2.2s-3-.7-2.5 1"/></svg>',
+  'Lengkuas': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 21c-1.4-6 .3-13 4.8-17.6"/><path d="M11.5 14.8l3.3-2.2M10.3 10.8l3.3-2.2M9.6 6.6l3-2"/></svg>',
+  'Asam Jawa': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.3c4.3-4.4 12.7-4.4 17 0-2 6.4-4.4 9.7-8.5 9.7s-6.5-3.3-8.5-9.7Z"/><path d="M7.3 10.6c2.3 1.9 7 1.9 9.4 0M6.5 14.6c3.2 1.6 7.8 1.6 11 0"/></svg>',
+  'Jahe': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.8c-2-3-1-6.8 1.8-7.8.8-2.8 3.6-3.8 5.6-2 2.8-.1 4 2.6 2.2 4.6 2 2 .8 4.8-2 5.7-1 2.7-3.7 3.6-5.6 1.8-2.7 0-3.7-1.8-2-2.3Z"/></svg>',
+  'Gula Aren': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="8.2" rx="8" ry="3"/><path d="M4 8.2v6.6c0 1.7 3.6 3 8 3s8-1.3 8-3V8.2"/><path d="M4 11.5c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>'
+};
+function getIngredientIcon(name){
+  return INGREDIENT_ICONS[name] || ICONS.leaf;
+}
+
+// Kartu "teaser" di bawah kolom pencarian — dibuat penasaran seperti pop-up
+// berita, mengarah ke resep jamu (DRINKS) yang relevan dengan keluhan/mood.
+// Tulis question & desc dalam Bahasa Indonesia saja, otomatis diterjemahkan lewat tr().
+const MOOD_CARDS = [
+  {
+    drinkId:'wedang-uwuh', emoji:'🌧️',
+    question:'Need Extra Warmth?',
+    desc:'A warming, aromatic spice blend shown to help improve circulation and ease body aches.',
+    rating:4.8, minutes:10, difficulty:'easy'
+  },
+  {
+    drinkId:'kunyit-asem', emoji:'🤕',
+    question:'Menstrual Cramps Ruining Your Day?',
+    desc:'A refreshing turmeric and tamarind drink, passed down for generations, shown to help ease menstrual cramps and refresh the body.',
+    rating:4.9, minutes:15, difficulty:'easy'
+  }
+];
+
+function renderMoodGrid(){
+  const grid = document.getElementById('moodGrid');
+  if(!grid) return;
+  const dict = I18N[currentLang];
+  const diffLabel = { easy:dict.diff_easy, medium:dict.diff_medium, hard:dict.diff_hard };
+  grid.innerHTML = MOOD_CARDS.map(m => {
+    const d = DRINKS.find(x=>x.id===m.drinkId);
+    if(!d) return '';
+    return `
+    <button class="mood-card" data-item="${d.id}">
+      <div class="mood-top">
+        <div class="mood-badge emoji">${m.emoji}</div>
+        <div class="mood-text">
+          <div class="mood-question">${tr(m.question)}</div>
+          <h3>${tr(d.name)}</h3>
+        </div>
+      </div>
+      <p class="mood-desc">${tr(m.desc)}</p>
+      <div class="mood-divider"></div>
+      <div class="mood-stats">
+        <span class="stat rating">${ICONS.star}${m.rating}</span>
+        <span class="sep">|</span>
+        <span class="stat time">${ICONS.clock}${m.minutes} ${dict.min_suffix}</span>
+        <span class="sep">|</span>
+        <span class="stat diff">${ICONS.leaf}${diffLabel[m.difficulty]}</span>
+      </div>
+      <div class="mood-cta">${dict.mood_cta}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </button>
+  `;
+  }).join('');
+  grid.querySelectorAll('.mood-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      openDetail(card.getAttribute('data-item'));
+    });
+  });
+}
+
+// ---------- HERBAL FOR YOU (FYP) — feed vertikal ala TikTok ----------
+// Layout dulu, konten belakangan: tiap item di FYP_FEED nanti diisi video/foto
+// asli + caption asli. Untuk sekarang cukup slot kosong sejumlah `count`
+// supaya feed-nya sudah bisa di-scroll dan terasa seperti aplikasi video.
+const FYP_FEED = { count: 4 };
+const FYP_PLACEHOLDER_NAMES = ['Sari Wulandari', 'Budi Santoso', 'Ayu Lestari', 'Rizky Pratama', 'Dewi Anggraini', 'Fajar Nugroho'];
+
+function renderFypFeed(){
+  const feed = document.getElementById('fypFeed');
+  if(!feed) return;
+  const total = FYP_FEED.count;
+  let html = '';
+  for(let i = 0; i < total; i++){
+    const uname = FYP_PLACEHOLDER_NAMES[i % FYP_PLACEHOLDER_NAMES.length];
+    html += `
+    <div class="fyp-card" data-slot="${i+1}">
+      <div class="fyp-media">
+        <div class="fyp-media-placeholder">
+          ${ICONS.play}
+          <span>${tr('Video atau foto akan tampil di sini')}</span>
+        </div>
+      </div>
+      <div class="fyp-scrim-top"></div>
+      <div class="fyp-scrim-bottom"></div>
+      <div class="fyp-top-row">
+        <div class="fyp-avatar"></div>
+        <div class="fyp-username">${uname}</div>
+        <button class="fyp-follow-btn" type="button">${tr('Ikuti')}</button>
+      </div>
+      <div class="fyp-actions">
+        <button class="fyp-action-btn" type="button">${ICONS.heart}<span>0</span></button>
+        <button class="fyp-action-btn" type="button">${ICONS.comment}<span>0</span></button>
+        <button class="fyp-action-btn" type="button">${ICONS.share}<span>${tr('Bagikan')}</span></button>
+        <button class="fyp-action-btn" type="button">${ICONS.bookmark}<span></span></button>
+      </div>
+      <div class="fyp-caption">
+        <p class="fyp-caption-text">${tr('Caption konten akan muncul di sini.')}</p>
+        <div class="fyp-audio">${ICONS.music}<span>${tr('Audio asli')}</span></div>
+      </div>
+    </div>`;
+  }
+  feed.innerHTML = html;
+  // Tombol follow/like/komentar/share masih placeholder — beri feedback ringan saja.
+  feed.querySelectorAll('.fyp-follow-btn, .fyp-action-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> showToast(I18N[currentLang].fyp_toast_upload));
+  });
+}
+
+// Tinggi header sesungguhnya dipakai supaya feed FYP pas mengisi sisa layar
+// (bukan angka hardcode), tetap akurat walau header membungkus baris di HP.
+function updateHeaderHeightVar(){
+  const header = document.querySelector('header.site-header');
+  if(!header) return;
+  document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+}
+window.addEventListener('resize', updateHeaderHeightVar);
+
+// Helper: pick text for the active language, falling back to Indonesian.
+function t(obj){
+  if(!obj) return '';
+  return obj[currentLang] || obj.id || '';
+}
+
+/* ============ AUTO TRANSLATE (CONTENT) ============
+   Isi CATEGORIES & DRINKS di bawah cukup ditulis dalam Bahasa Indonesia saja
+   (string biasa, bukan objek multi-bahasa lagi). Saat pengunjung ganti bahasa
+   di dropdown, fungsi tr() otomatis menerjemahkan teks itu lewat AI dan
+   menyimpannya di cache (localStorage) supaya tidak perlu request ulang. */
+const TRANSLATE_CACHE_KEY = 'artcaraki_translation_cache_v1';
+let translationCache = {};
+try{ translationCache = JSON.parse(localStorage.getItem(TRANSLATE_CACHE_KEY) || '{}'); }catch(e){ translationCache = {}; }
+function saveTranslationCache(){
+  try{ localStorage.setItem(TRANSLATE_CACHE_KEY, JSON.stringify(translationCache)); }catch(e){ /* ignore quota errors */ }
+}
+
+const TR_LANG_NAMES = { id:'Indonesian', ms:'Malay', zh:'Simplified Chinese', ko:'Korean', vi:'Vietnamese' };
+let translateQueue = new Set();
+let translateTimer = null;
+let isTranslating = false;
+
+// English is the source/base language the content below is written in.
+// Get the text for the active language. If it hasn't been translated yet,
+// show the English version first while quietly queuing it for background translation.
+function tr(text){
+  if(!text) return '';
+  if(currentLang === 'en') return text;
+  const cached = translationCache[currentLang] && translationCache[currentLang][text];
+  if(cached) return cached;
+  translateQueue.add(text);
+  clearTimeout(translateTimer);
+  translateTimer = setTimeout(flushTranslateQueue, 150);
+  return text;
+}
+
+// Translate ONE piece of text per API call (instead of batching everything into
+// one big array). This matters especially for long fields like History & Benefits
+// (full HTML with <mark>, <sup>, etc.) — if every queued text (name, description,
+// history, benefits, etc.) were combined into a single request sharing one token
+// budget, the response could easily get cut off / fail to parse, so NOTHING would
+// get translated. With one text = one request, each piece gets its own token
+// budget and a failure in one piece doesn't take the others down with it.
+async function translateOneText(text, lang){
+  const targetName = TR_LANG_NAMES[lang] || lang;
+  const prompt = `Translate the following text from English to ${targetName}.\n`
+    + `It may contain HTML tags and attributes (e.g. <mark>, <sup class="cite">, <p>, <div>) — `
+    + `keep ALL tags and attributes exactly as-is, only translate the visible text content.\n`
+    + `Respond with ONLY the translated text (with its HTML tags intact if any), no markdown `
+    + `fences, no explanation, no surrounding quotes.\n\n${text}`;
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 8000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  const data = await response.json();
+  let raw = (data.content || []).map(b => b.type === 'text' ? b.text : '').join('').trim();
+  raw = raw.replace(/^```(?:html|json)?\s*/i, '').replace(/```\s*$/, '').trim();
+  if(!raw) throw new Error('empty translation result');
+  return raw;
+}
+
+// Proses beberapa teks sekaligus tapi dibatasi jumlah request paralel (biar
+// tidak nembak puluhan request bersamaan), dan tiap teks langsung disimpan ke
+// cache begitu berhasil — jadi kalaupun satu teks gagal, teks lain tetap kesimpen.
+async function translateBatch(texts, lang, concurrency = 4){
+  let idx = 0;
+  async function worker(){
+    while(idx < texts.length){
+      const text = texts[idx++];
+      try{
+        const translated = await translateOneText(text, lang);
+        if(!translationCache[lang]) translationCache[lang] = {};
+        translationCache[lang][text] = translated;
+        saveTranslationCache();
+      }catch(err){
+        console.error('Auto-translate error for one item:', err);
+        // biarkan teks ini tetap dalam Bahasa Indonesia untuk sekarang;
+        // akan dicoba lagi otomatis lain kali tr() dipanggil untuk teks ini.
+      }
+    }
+  }
+  const workers = Array.from({length: Math.min(concurrency, texts.length)}, worker);
+  await Promise.all(workers);
+}
+
+async function flushTranslateQueue(){
+  const lang = currentLang;
+  if(lang === 'id' || translateQueue.size === 0 || isTranslating) { translateQueue.clear(); return; }
+  const texts = Array.from(translateQueue).filter(s => !(translationCache[lang] && translationCache[lang][s]));
+  translateQueue.clear();
+  if(texts.length === 0) return;
+
+  isTranslating = true;
+  showToast(I18N[currentLang].translating || 'Menerjemahkan…');
+  try{
+    await translateBatch(texts, lang);
+    if(currentLang === lang) refreshContentViews();
+  }finally{
+    isTranslating = false;
+    if(translateQueue.size > 0) flushTranslateQueue();
+  }
+}
+
+// Render ulang bagian-bagian yang isinya auto-translate, tanpa reset scroll/panel.
+function refreshContentViews(){
+  renderCategoryGrid();
+  renderDrinkGrid();
+  renderMoodGrid();
+  renderFypFeed();
+  if(currentHerb) openDetail(currentHerb.id);
+}
+
+// Category name & description are written in English only — the other 5
+// languages are generated automatically by AI when a visitor switches language
+// (see the tr() function).
+const CATEGORIES = [
+  { id:'drink', icon:'drink', target:'category-drink',
+    name:'Herbal Drink', desc:'Traditional herbal drink recipes.' },
+  { id:'skincare', icon:'skincare', target:'category-generic',
+    name:'Herbal Skincare', desc:'Natural, plant-based skincare.' },
+];
+
+// Swap "image" below for your own photo path/URL, e.g. "images/wedang-uwuh.jpg"
+// All text (tag, desc, ingredients, steps, jurnal) only needs to be written in
+// English — the other 5 languages are generated automatically by AI when the
+// language is switched.
+const DRINKS = [
+  {
+    id:'wedang-uwuh', name:'Wedang Uwuh',
+    tag:'Herbal Drink',
+    desc:'A signature spiced drink from Yogyakarta with a naturally red color and warm aroma.',
+    image:'images/WEDANG UWUH.jpeg',
+    serving:'This recipe makes 2 servings (±300 ml per serving)',
+    history:"<p>The name <mark>\"uwuh\"</mark> means trash — at first glance, this drink does look like a wedang mixed with bits of dried leaves. According to a story passed down among the palace attendants at the <mark>Tombs of the Imogiri Kings</mark>, this signature wedang of the <mark>Mataram Sultanate</mark> was first served, quite by accident, to <mark>Sultan Agung</mark>.</p><p>At the time, the Sultan was preparing to meditate and asked his attendants to prepare a cup of wedang secang as usual. The drink was placed not far from where he sat in contemplation. A strong gust of wind blew dried leaves into the drink.</p><p>After finishing his meditation, Sultan Agung tasted the wedang — and found it <mark>far more delicious and more fragrant</mark> than ordinary wedang secang. The next day, he asked for another cup just as tasty. His attendants were puzzled, since the drink's contents had somehow mixed with dried leaves they had never added before.</p><p>After tracing and identifying which leaves had been mixed in, they reworked the recipe. Because its contents were dried leaves once considered trash, this drink came to be known as <mark>wedang uwuh — \"trash wedang\"</mark> — which has since become a treasured heirloom to this day.</p>",
+    benefits:"<div class=\"benefit-list\"><div class=\"benefit-item\"><h5><span class=\"benefit-num\">1</span>High Antioxidant Content</h5><p>The spice combination in wedang uwuh — especially <mark>sappan wood, ginger, cloves, and cinnamon</mark> — has been reported to show high antioxidant activity. Sappan wood's natural red pigment (<mark>brazilin</mark>) and ginger's <mark>gingerol</mark> compound play a major role in neutralizing free radicals, as shown through DPPH assay testing in several studies.<sup class=\"cite\">[1,2,3]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">2</span>May Help Support Blood Sugar Control</h5><p>The phenolic and flavonoid compounds in wedang uwuh have been linked to potential support for blood sugar metabolism, partly through <mark>inhibiting the α-amylase enzyme</mark>, an effect that correlates with the high antioxidant capacity of its ingredients.<sup class=\"cite\">[3,6]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">3</span>Eases Inflammation (Anti-inflammatory)</h5><p>Active compounds such as <mark>gingerol, shogaol</mark>, and eugenol in ginger and cloves have been reported to suppress inflammation in the body, partly by boosting the activity of natural antioxidant enzymes such as SOD and catalase.<sup class=\"cite\">[6]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">4</span>Antibacterial Activity</h5><p>Boiled wedang uwuh has been shown to inhibit the growth of <mark>Escherichia coli</mark> bacteria in disk-diffusion tests, with a specific boiling duration producing the strongest inhibitory effect.<sup class=\"cite\">[4]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">5</span>Supports Weight Control</h5><p>Several scientific reviews suggest wedang uwuh may help support <mark>weight control</mark> thanks to its combination of bioactive compounds, though clinical research in humans is still limited.<sup class=\"cite\">[6]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">6</span>Warms the Body &amp; Improves Circulation</h5><p>Ginger and lemongrass are widely known, through generations of traditional use, for their <mark>warming effect on the body</mark> and for helping improve blood circulation — making wedang uwuh a fitting drink for cold weather or when feeling under the weather.<sup class=\"cite\">[5]</sup></p></div></div><p class=\"benefit-note\">Note: most of the scientific evidence above is still based on laboratory (in vitro) and animal studies, with limited direct testing in humans. Wedang uwuh should be viewed as a complement to a healthy lifestyle, not a substitute for medical treatment.</p>",
+    ingredients:[
+      { name:'Sappan Wood', image:'images/ingredients/kayu-secang.jpg' },
+      { name:'Cinnamon Stick', image:'images/ingredients/kayu-manis.jpg' },
+      { name:'Cinnamon Leaves', image:'images/ingredients/daun-kayu-manis.jpg' },
+      { name:'Clove Leaves & Stems', image:'images/ingredients/daun-cengkih.jpg' },
+      { name:'Nutmeg Leaves', image:'images/ingredients/daun-pala.jpg' },
+      { name:'Lemongrass', image:'images/ingredients/serai.jpg' },
+      { name:'Rock Sugar', image:'images/ingredients/gula-batu.jpg' },
+      { name:'Cardamom', image:'images/ingredients/kapulaga.jpg' }
+    ],
+    steps:[
+      { title:'Prepare the Ingredients', desc:'Prepare 1 piece (±15 g) sappan wood, 1 piece (±20 g) bruised ginger, 1 cinnamon stick, 2 bruised lemongrass stalks, 4 cloves, 2 slices of nutmeg, and 30 g rock sugar. Wash all ingredients thoroughly.' },
+      { title:'Boil the Spices', desc:'Bring 600 ml of water to a boil, then add all the spices (except the rock sugar). Simmer over low heat for 10–15 minutes until the water turns reddish-brown and fragrant.' },
+      { title:'Add the Rock Sugar', desc:'Add the rock sugar to the pot, stir gently until fully dissolved, then simmer for another ±3 minutes.' },
+      { title:'Strain & Serve', desc:'Strain the wedang uwuh to remove the spice residue, pour into a glass or cup, and serve while warm.' }
+    ],
+    jurnal:[
+      { title:'Wedang Uwuh: A Natural Antioxidant from Yogyakarta', meta:'MedScientiae Journal, Vol. 1 No. 1, 2022, pp. 10–14', link:'http://ejournal.ukrida.ac.id/ojs/index.php/ms/article/view/2443' },
+      { title:'Bioaccessibility of Antioxidant Capacity of Wedang Uwuh, a Traditional Indonesian Beverage, by Gastrointestinal Digestion', meta:'Current Research in Nutrition and Food Science, Vol. 11 No. 1, 2023, pp. 376–388', link:'https://doi.org/10.12944/CRNFSJ.11.1.28' },
+      { title:'The Hidden Treasure of Wedang Uwuh, an Ethnic Traditional Drink from Java, Indonesia: Its Benefits and Innovations', meta:'International Journal of Gastronomy and Food Science, Vol. 31, 2023, art. 100688', link:'https://doi.org/10.1016/j.ijgfs.2023.100688' },
+      { title:'Antibacterial Potential of a Traditional Javanese Functional Drink (Wedang Uwuh) Based on Variations in Boiling Time', meta:'Journal of Food Technology and Industry, Vol. 35 No. 1, 2024, pp. 10–26', link:'https://doi.org/10.6066/jtip.2024.35.1.10' },
+      { title:'Historical and Health Insights into Wedang Uwuh: A Traditional Indonesian Beverage', meta:'Journal of Ethnic Foods, Vol. 12, 2025, art. 30', link:'https://doi.org/10.1186/s42779-025-00291-5' },
+      { title:'Bioactive Profile and Health Benefits of Wedang Uwuh: A Narrative Mini-Review', meta:'The Journal Of Pharmacy, Vol. 3 No. 2, 2026, pp. 58–69', link:'https://ejurnal.umri.ac.id/index.php/JFMu/article/view/10601' }
+    ]
+  },
+  {
+    id:'kunyit-asem', name:'Kunyit Asem',
+    tag:'Herbal Drink',
+    desc:'A refreshing turmeric and tamarind drink, popular across Java.',
+    image:'images/KUNYIT ASEM.jpeg',
+    serving:'This recipe makes 2 servings (±250 ml per serving)',
+    history:"<p>The turmeric-tamarind remedy has been known for <mark>hundreds of years</mark> as part of <mark>Javanese jamu tradition</mark>. During the era of the kingdoms of Java, turmeric and tamarind were two natural ingredients commonly used in traditional medicine and body care, believed to help maintain health and vitality.</p><p>Over time, the remedy was no longer consumed only within the <mark>royal court</mark>. Ordinary people began preparing it themselves using ingredients easily found in home gardens or traditional markets. From there, kunyit asem grew into one of the most well-known jamu, <mark>passed down through generations</mark> across many regions of Indonesia.</p><p>To this day, kunyit asem remains part of <mark>Indonesia's jamu-drinking culture</mark>. Beyond its refreshing flavor that blends the warmth of turmeric with the tang of tamarind, this drink is also consumed as part of a healthy lifestyle and the <mark>preservation of the Nusantara's herbal heritage</mark>.</p>",
+    benefits:"<div class=\"benefit-list\"><div class=\"benefit-item\"><h5><span class=\"benefit-num\">1</span>Eases Menstrual Cramps (Dysmenorrhea)</h5><p>Kunyit asem is widely known as a traditional drink that helps ease <mark>menstrual cramps (dysmenorrhea)</mark> in young women. The <mark>curcumin</mark> in turmeric acts as a natural analgesic and anti-inflammatory, reported to reduce pain levels during menstruation.<sup class=\"cite\">[1,5]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">2</span>Helps Maintain Cholesterol Levels</h5><p>The <mark>curcumin</mark> compound in turmeric is known to help inhibit cholesterol synthesis in the liver and increase cholesterol excretion via bile acids, so regular turmeric consumption has been linked to potential support for keeping <mark>total cholesterol levels</mark> optimal.<sup class=\"cite\">[2]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">3</span>Eases Symptoms of Acid Reflux (Gastritis)</h5><p>Boiled turmeric has been reported to help ease pain in people with <mark>gastritis</mark>, thanks to the anti-inflammatory properties of curcuminoids that help protect the stomach lining and reduce irritation from excess <mark>stomach acid</mark>.<sup class=\"cite\">[3]</sup></p></div><div class=\"benefit-item\"><h5><span class=\"benefit-num\">4</span>High Antioxidant Content</h5><p>The combination of turmeric and tamarind is rich in <mark>curcuminoid and flavonoid</mark> compounds that act as antioxidants, helping neutralize free radicals in the body, as shown through antioxidant activity testing across various kunyit asem jamu formulations.<sup class=\"cite\">[4]</sup></p></div></div><p class=\"benefit-note\">Note: most of the scientific evidence above comes from small-scale studies and preclinical trials. Kunyit asem should be viewed as a complement to a healthy lifestyle, not a substitute for medical treatment — especially for severe or prolonged menstrual, cholesterol, or stomach complaints.</p>",
+    ingredients:[
+      { name:'Turmeric', image:'images/ingredients/kunyit.jpg' },
+      { name:'Galangal', image:'images/ingredients/lengkuas.jpg' },
+      { name:'Tamarind', image:'images/ingredients/asam-jawa.jpg' },
+      { name:'Ginger', image:'images/ingredients/jahe.jpg' },
+      { name:'Palm Sugar', image:'images/ingredients/gula-aren.jpg' }
+    ],
+    steps:[
+      { title:'Prepare & Roast the Turmeric', desc:'Prepare 10 pieces (±100 g) fresh turmeric, 50 g tamarind, and 100 g finely grated palm sugar/brown sugar. Wash the turmeric thoroughly, then briefly roast it over a flame until slightly wilted for a more fragrant aroma. Peel, then bruise or coarsely grate.' },
+      { title:'Boil the Turmeric', desc:'Boil the bruised turmeric in 500 ml of water until it boils and the water turns a deep yellow, about 15 minutes.' },
+      { title:'Add Tamarind & Palm Sugar', desc:'Add the tamarind and palm sugar to the pot, stir until dissolved, then continue cooking for another ±5 minutes, stirring occasionally.' },
+      { title:'Strain & Serve', desc:'Strain to remove the pulp, then pour into a glass. Can be served warm or cold with ice, according to taste.' }
+    ],
+    jurnal:[
+      { title:'Effectiveness of Kunyit Asam on Reducing Dysmenorrhea Pain Scale in Female Adolescents at SMA Negeri 9 Medan, 2022', meta:'Journal of Maternal Midwifery, Vol. 8 No. 1, 2023, pp. 85–92', link:'https://doi.org/10.34012/jumkep.v8i1.3741' },
+      { title:'The Relationship Between Turmeric Intake and Total Cholesterol in Young Adults', meta:'E-Journal Medika Udayana, Vol. 11 No. 11, 2022', link:'https://ojs.unud.ac.id/index.php/eum/article/view/94237' },
+      { title:'Efficacy of Turmeric (Curcuma longa Linn) Decoction to Reduce Pain in Patients with Gastritis', meta:'Healthcare in Low-Resource Settings, Vol. 11 No. 2, 2023, art. 11729', link:'https://doi.org/10.4081/hls.2023.11729' },
+      { title:'Antioxidant Activity Test of Kunyit Asam Jamu (Curcuma domestica Val. - Tamarindus indica L.) with the Addition of Kersen Leaf Extract (Muntingia calabura L.)', meta:'Farmasindo Journal, Vol. 7 No. 2, 2023, pp. 24–28', link:'https://doi.org/10.46808/farmasindo.v7i2.175' },
+      { title:'The Effect of Kunyit Asam Drink on Reducing Primary Dysmenorrhea Pain Scale', meta:'Budi Luhur Health Journal, Vol. 17 No. 1, 2024, pp. 21–28', link:'https://doi.org/10.62817/jkbl.v17i1.297' }
+    ]
+  }
+];
+
+function renderCategoryGrid(){
+  const grid = document.getElementById('categoryGrid');
+  const dict = I18N[currentLang];
+  grid.innerHTML = CATEGORIES.map(c => `
+    <button class="cat-card" data-target="${c.target}" data-cat="${c.id}">
+      <div class="cat-seal">${ICONS[c.icon]}</div>
+      <h3>${tr(c.name)}</h3>
+      <div class="desc">${tr(c.desc)}</div>
+      <div class="go">${dict.explore_label}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </button>
+  `).join('');
+  grid.querySelectorAll('.cat-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const catId = card.getAttribute('data-cat');
+      const cat = CATEGORIES.find(c=>c.id===catId);
+      if(cat.target === 'category-drink'){
+        showView('category-drink');
+      } else {
+        document.getElementById('genericTitle').textContent = tr(cat.name);
+        document.getElementById('genericEyebrow').textContent = tr(cat.name);
+        document.getElementById('genericCrumb').textContent = tr(cat.name);
+        showView('category-generic');
+      }
+    });
+  });
+}
+
+function renderDrinkGrid(){
+  const grid = document.getElementById('drinkGrid');
+  const dict = I18N[currentLang];
+  grid.innerHTML = DRINKS.map(d => `
+    <button class="item-card" data-item="${d.id}">
+      <div class="thumb">
+        <div class="thumb-icon">${ICONS.jamucup}</div>
+        <span class="thumb-steam s1"></span>
+        <span class="thumb-steam s2"></span>
+        <span class="thumb-steam s3"></span>
+        <svg class="thumb-float f1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 20A7 7 0 0 1 4 13V6a1 1 0 0 1 1-1h1a10 10 0 0 1 10 10v1a5 5 0 0 1-5 5Z"/><path d="M4 6c8 0 13 6 13 14"/></svg>
+        <svg class="thumb-float f2" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.8-4.6 6.6-.9 2.9-6Z"/></svg>
+        <svg class="thumb-float f3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 20A7 7 0 0 1 4 13V6a1 1 0 0 1 1-1h1a10 10 0 0 1 10 10v1a5 5 0 0 1-5 5Z"/><path d="M4 6c8 0 13 6 13 14"/></svg>
+        <svg class="thumb-float f4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.5"/><path d="M12 3a3 3 0 0 1 0 6 3 3 0 0 1 0-6Z"/><path d="M12 15a3 3 0 0 1 0 6 3 3 0 0 1 0-6Z"/><path d="M3 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0Z"/><path d="M15 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0Z"/></svg>
+        <svg class="thumb-float f5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 20A7 7 0 0 1 4 13V6a1 1 0 0 1 1-1h1a10 10 0 0 1 10 10v1a5 5 0 0 1-5 5Z"/><path d="M4 6c8 0 13 6 13 14"/></svg>
+        <svg class="thumb-float f6" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.8-4.6 6.6-.9 2.9-6Z"/></svg>
+      </div>
+      <div class="body">
+        <h3>${tr(d.name)}</h3>
+        <p>${tr(d.desc)}</p>
+        <div class="go">${dict.view_details_label}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+    </button>
+  `).join('');
+  grid.querySelectorAll('.item-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      openDetail(card.getAttribute('data-item'));
+    });
+  });
+}
+
+function openDetail(id){
+  const d = DRINKS.find(x=>x.id===id);
+  if(!d) return;
+  currentHerb = d;
+  document.getElementById('detailTitle').textContent = tr(d.name);
+  document.getElementById('detailTag').textContent = tr(d.tag);
+  document.getElementById('detailCrumb').textContent = tr(d.name);
+  document.getElementById('detailDesc').textContent = tr(d.desc);
+
+  // kolom "Sejarah": tampilkan cerita asal-usul jika sudah diisi di data,
+  // kalau belum, tampilkan kotak placeholder seperti biasa.
+  const dict = I18N[currentLang];
+  const historyContent = document.getElementById('historyContent');
+  if(d.history){
+    historyContent.innerHTML = `
+      <div class="history-article">
+        <div class="history-kicker">${dict.tab_history}</div>
+        <h4>${tr(d.name)}</h4>
+        <div class="history-body">${tr(d.history)}</div>
+      </div>
+    `;
+  } else {
+    historyContent.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        <h4>${dict.empty_history_title}</h4>
+        <p>${dict.empty_history_text}</p>
+      </div>
+    `;
+  }
+
+  // kolom "Manfaat": sama seperti Sejarah — tampilkan teks manfaat jika ada di data.
+  const benefitsContent = document.getElementById('benefitsContent');
+  if(d.benefits){
+    benefitsContent.innerHTML = `
+      <div class="history-article">
+        <div class="history-kicker">${dict.tab_benefits}</div>
+        <h4>${tr(d.name)}</h4>
+        <div class="history-body">${tr(d.benefits)}</div>
+      </div>
+    `;
+  } else {
+    benefitsContent.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+        <h4>${dict.empty_benefits_title}</h4>
+        <p>${dict.empty_benefits_text}</p>
+      </div>
+    `;
+  }
+
+  // photo (falls back to a generic icon automatically via onerror if the file isn't there yet)
+  const img = document.getElementById('detailImage');
+  const detailFallback = document.getElementById('detailPhotoFallback');
+  img.style.display = '';
+  if(detailFallback) detailFallback.style.display = 'none';
+  img.src = d.image || '';
+  img.alt = tr(d.name);
+  if(detailFallback){
+    detailFallback.innerHTML = `${ICONS.leaf}<span>${tr(d.name)}</span>`;
+  }
+
+  // ingredients grid
+  const ingWrap = document.getElementById('ingredientsBlock');
+  const ingGrid = document.getElementById('ingredientsGrid');
+  if(d.ingredients && d.ingredients.length){
+    ingWrap.style.display = '';
+    ingGrid.innerHTML = d.ingredients.map((ing, i) => `
+      <div class="ingredient-card">
+        <div class="photo-slot">
+          <img src="${ing.image || ''}" alt="${tr(ing.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-fallback" style="display:none;">
+            <span class="ing-icon-wrap" style="--ing-delay:${(i % 5) * 0.25}s">${getIngredientIcon(ing.name)}</span>
+          </div>
+        </div>
+        <div class="name">${tr(ing.name)}</div>
+      </div>
+    `).join('');
+  } else {
+    ingWrap.style.display = 'none';
+    ingGrid.innerHTML = '';
+  }
+
+  // jurnal / research references
+  const jurnalList = document.getElementById('jurnalList');
+  if(d.jurnal && d.jurnal.length){
+    jurnalList.innerHTML = d.jurnal.map(j => `
+      <div class="jurnal-card">
+        <div class="jicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div>
+        <div class="jbody">
+          <h5>${tr(j.title)}</h5>
+          <div class="meta">${tr(j.meta)}</div>
+          <a href="${j.link}">
+            <span>${(I18N[currentLang] && I18N[currentLang].jurnal_read) || 'Baca selengkapnya'}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    jurnalList.innerHTML = '';
+  }
+
+  // takaran saji ("untuk 1 porsi berapa ml")
+  const servingInfo = document.getElementById('servingInfo');
+  if(d.serving){
+    servingInfo.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l-1.5 6.5a5 5 0 0 1-2.2 3.1L12 14l-2.3-1.4a5 5 0 0 1-2.2-3.1L6 3Z"/><path d="M12 14v4M8 21h8"/></svg>
+      <span>${tr(d.serving)}</span>
+    `;
+    servingInfo.style.display = '';
+  } else {
+    servingInfo.innerHTML = '';
+    servingInfo.style.display = 'none';
+  }
+
+  // step-by-step "cara pembuatan"
+  const stepsList = document.getElementById('stepsList');
+  if(d.steps && d.steps.length){
+    stepsList.innerHTML = d.steps.map((s,i) => `
+      <div class="step-item">
+        <div class="step-num">${i+1}</div>
+        <div class="step-body">
+          <h5>${tr(s.title)}</h5>
+          <p>${tr(s.desc)}</p>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    stepsList.innerHTML = '';
+  }
+
+  // reset tabs
+  document.querySelectorAll('.detail-tab').forEach((t,i)=> t.classList.toggle('active', i===0));
+  document.querySelectorAll('.detail-panel').forEach((p,i)=> p.classList.toggle('active', i===0));
+  showView('detail');
+  updateAiContext();
+}
+
+/* ============ VIEW ROUTER ============ */
+let currentHerb = null;
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-link[data-nav="'+name+'"]').forEach(n=>n.classList.add('active'));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(name !== 'detail') { currentHerb = null; updateAiContext(); }
+}
+
+document.querySelectorAll('.nav-link').forEach(link=>{
+  link.addEventListener('click', (e)=>{
+    e.preventDefault();
+    showView(link.getAttribute('data-nav'));
+    closeMobileNav();
+  });
+});
+
+/* ============ MOBILE NAV (hamburger) ============ */
+const mobileNavToggle = document.getElementById('mobileNavToggle');
+const mobileNavPanel = document.getElementById('mobileNavPanel');
+function openMobileNav(){
+  mobileNavPanel.classList.add('open');
+  mobileNavToggle.setAttribute('aria-expanded', 'true');
+}
+function closeMobileNav(){
+  mobileNavPanel.classList.remove('open');
+  mobileNavToggle.setAttribute('aria-expanded', 'false');
+}
+mobileNavToggle.addEventListener('click', ()=>{
+  if(mobileNavPanel.classList.contains('open')) closeMobileNav();
+  else openMobileNav();
+});
+document.addEventListener('click', (e)=>{
+  if(!mobileNavPanel.classList.contains('open')) return;
+  if(mobileNavPanel.contains(e.target) || mobileNavToggle.contains(e.target)) return;
+  closeMobileNav();
+});
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 760) closeMobileNav();
+});
+
+document.querySelectorAll('[data-back]').forEach(btn=>{
+  btn.addEventListener('click', ()=> showView(btn.getAttribute('data-back')));
+});
+document.querySelectorAll('.detail-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.detail-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.detail-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.getAttribute('data-tab')).classList.add('active');
+  });
+});
+
+/* ============ SEARCH BAR ============ */
+const cameraInput = document.getElementById('cameraInput');
+const galleryInput = document.getElementById('galleryInput');
+document.getElementById('lensBtn').addEventListener('click', ()=> cameraInput.click());
+document.getElementById('galleryBtn').addEventListener('click', ()=> galleryInput.click());
+[cameraInput, galleryInput].forEach(inp=>{
+  inp.addEventListener('change', ()=>{
+    if(inp.files && inp.files[0]){
+      showToast(I18N[currentLang].img_selected + inp.files[0].name);
+    }
+  });
+});
+document.getElementById('searchGo').addEventListener('click', doSearch);
+document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') doSearch(); });
+function normalizeSearch(str){
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // buang diakritik
+    .replace(/[-_]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function findSearchMatch(query){
+  const nq = normalizeSearch(query);
+  if(!nq) return null;
+
+  // 1) cocok persis pada nama / id
+  let hit = DRINKS.find(d => normalizeSearch(d.name) === nq || normalizeSearch(d.id) === nq);
+  if(hit) return hit;
+
+  // 2) nama/id/tag/deskripsi mengandung kata kunci
+  hit = DRINKS.find(d =>
+    normalizeSearch(d.name).includes(nq) ||
+    normalizeSearch(d.id).includes(nq) ||
+    normalizeSearch(d.tag).includes(nq) ||
+    normalizeSearch(d.desc).includes(nq) ||
+    normalizeSearch(tr(d.name)).includes(nq) ||
+    normalizeSearch(tr(d.tag)).includes(nq) ||
+    normalizeSearch(tr(d.desc)).includes(nq)
+  );
+  if(hit) return hit;
+
+  // 3) kata kunci mengandung nama/id item (mis. "resep kunyit asem")
+  hit = DRINKS.find(d => nq.includes(normalizeSearch(d.name)) || nq.includes(normalizeSearch(d.id)));
+  return hit || null;
+}
+
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim();
+  if(!q) return;
+  const match = findSearchMatch(q);
+  if(match){
+    showView('category-drink');
+    openDetail(match.id);
+  } else {
+    showToast(I18N[currentLang].search_not_found + q);
+  }
+}
+
+document.getElementById('micBtn').addEventListener('click', ()=>{
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition){
+    showToast(I18N[currentLang].voice_not_supported);
+    return;
+  }
+  const rec = new SpeechRecognition();
+  rec.lang = I18N[currentLang].speech_lang;
+  rec.onresult = (e)=>{ document.getElementById('searchInput').value = e.results[0][0].transcript; };
+  rec.onerror = ()=> showToast(I18N[currentLang].voice_error);
+  rec.start();
+  showToast(I18N[currentLang].listening);
+});
+
+document.getElementById('fypAddBtn').addEventListener('click', ()=>{
+  // Placeholder for now — hook this up to a real upload flow later.
+  showToast(I18N[currentLang].fyp_toast_upload);
+});
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* ============ AI CHAT ============ */
+const aiPanel = document.getElementById('aiPanel');
+const scrim = document.getElementById('scrim');
+const aiMessages = document.getElementById('aiMessages');
+let chatHistory = [];
+let greeted = false;
+
+function openAiPanel(){
+  aiPanel.classList.add('open');
+  scrim.classList.add('show');
+  if(!greeted){
+    addMsg('bot', I18N[currentLang].ai_greeting);
+    greeted = true;
+  }
+  updateAiContext();
+}
+function closeAiPanel(){
+  aiPanel.classList.remove('open');
+  scrim.classList.remove('show');
+}
+document.getElementById('aiFab').addEventListener('click', openAiPanel);
+document.getElementById('aiClose').addEventListener('click', closeAiPanel);
+scrim.addEventListener('click', closeAiPanel);
+
+function updateAiContext(){
+  const ctx = document.getElementById('aiContext');
+  if(currentHerb){
+    ctx.textContent = I18N[currentLang].ai_context_prefix + tr(currentHerb.name);
+    ctx.classList.add('show');
+  } else {
+    ctx.classList.remove('show');
+  }
+}
+
+// ---------- Formatter ringan untuk pesan bot ----------
+// Susun teks jadi paragraf pendek + bullet list ("- ") biar enak dibaca.
+// Kalau ada gaya markdown **bold** yang terselip (mis. dari balasan AI),
+// itu diubah jadi penekanan visual (<strong>), lalu SISA tanda bintang apa
+// pun yang tidak berpasangan langsung dibuang — supaya tanda bintang literal
+// dijamin tidak pernah tampil ke pengguna.
+// Teks di-escape dulu sebelum diformat supaya aman dari HTML/markup asing.
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+function boldify(str){
+  const withEmphasis = str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Safety net: buang sisa tanda bintang apa pun (tunggal, tidak berpasangan, dll).
+  return withEmphasis.replace(/\*/g, '');
+}
+function formatBotText(raw){
+  const blocks = escapeHtml(raw).split(/\n\s*\n/);
+  return blocks.map(block=>{
+    const lines = block.split('\n').map(l=>l.trim()).filter(Boolean);
+    let html = '';
+    let i = 0;
+    while(i < lines.length){
+      if(lines[i].startsWith('- ')){
+        const items = [];
+        while(i < lines.length && lines[i].startsWith('- ')){
+          items.push(lines[i].slice(2));
+          i++;
+        }
+        html += '<ul>' + items.map(it=> '<li>' + boldify(it) + '</li>').join('') + '</ul>';
+      } else {
+        const paraLines = [];
+        while(i < lines.length && !lines[i].startsWith('- ')){
+          paraLines.push(lines[i]);
+          i++;
+        }
+        html += '<p>' + paraLines.map(boldify).join('<br>') + '</p>';
+      }
+    }
+    return html;
+  }).join('');
+}
+
+function addMsg(role, text){
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  if(role === 'bot'){
+    div.innerHTML = formatBotText(text);
+  } else {
+    div.textContent = text;
+  }
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+  return div;
+}
+function addTyping(){
+  const div = document.createElement('div');
+  div.className = 'msg bot typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+  return div;
+}
+
+// ---------- Jawaban baku (fixed answer) untuk pertanyaan tertentu ----------
+// Dipakai supaya jawaban untuk pertanyaan sensitif/sering ditanya konsisten,
+// tidak bergantung ke hasil generate AI. Deteksi berbasis kata kunci, jadi
+// tetap terdeteksi walau pengunjung menulis dalam bahasa apa pun.
+const QA_KEYWORD_RULES = [
+  {
+    answerKey: 'qa_kunyit_asem_perut_kosong',
+    drinkKeywords: ['kunyit asem', 'kunyit asam', 'kunyitasem', '姜黄罗望子', '쿠니잇 아셈', '쿠니트 아셈'],
+    topicKeywords: [
+      // Indonesian / Malay
+      'perut kosong', 'belum makan', 'belum sarapan', 'sebelum makan', 'sebelum sarapan', 'tanpa makan', 'tak makan',
+      // English
+      'empty stomach', 'stomach empty', 'before eating', 'before breakfast', 'without eating', 'not eaten',
+      // Chinese
+      '空腹', '没吃饭', '还没吃', '饭前',
+      // Korean
+      '빈속', '공복', '아침 안 먹', '밥 먹기 전', '식전',
+      // Vietnamese
+      'bụng đói', 'bụng rỗng', 'bung doi', 'bung rong', 'chưa ăn', 'chua an', 'trước khi ăn', 'truoc khi an'
+    ]
+  }
+];
+function findFixedAnswer(text){
+  const n = normalizeSearch(text);
+  for(const rule of QA_KEYWORD_RULES){
+    const hasDrink = rule.drinkKeywords.some(k => n.includes(normalizeSearch(k)) || text.includes(k));
+    const hasTopic = rule.topicKeywords.some(k => n.includes(normalizeSearch(k)) || text.includes(k));
+    if(hasDrink && hasTopic){
+      const dict = I18N[currentLang] || I18N.id;
+      return dict[rule.answerKey] || I18N.id[rule.answerKey];
+    }
+  }
+  return null;
+}
+
+async function sendAiMessage(){
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  addMsg('user', text);
+  chatHistory.push({role:'user', content:text});
+  const typingEl = addTyping();
+
+  // Kalau pertanyaannya cocok dengan salah satu jawaban baku, langsung
+  // jawab dari situ tanpa memanggil API — lebih cepat & konsisten.
+  const fixedAnswer = findFixedAnswer(text);
+  if(fixedAnswer){
+    setTimeout(()=>{
+      typingEl.remove();
+      addMsg('bot', fixedAnswer);
+      chatHistory.push({role:'assistant', content:fixedAnswer});
+    }, 450);
+    return;
+  }
+
+  const langNames = { id:'Indonesian', en:'English', ms:'Malay', zh:'Chinese', ko:'Korean', vi:'Vietnamese' };
+  const herbNote = currentHerb ? `The user is currently viewing the "${currentHerb.name}" page on the Artcaraki website.` : '';
+  const systemPrompt = `You are the friendly AI assistant embedded in "Artcaraki", a website about Indonesian traditional herbal plants, drinks, and skincare. Help the user learn about herbal ingredients, their benefits, history, and preparation. Keep answers concise (2-4 short paragraphs max), warm, and knowledgeable. The website's current language is set to ${langNames[currentLang] || 'Indonesian'} — reply in that language unless the user clearly writes in a different one. ${herbNote}`;
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+    const data = await response.json();
+    typingEl.remove();
+    let reply = "Maaf, terjadi kesalahan. Coba lagi ya.";
+    if(data && data.content){
+      reply = data.content.map(b=> b.type==='text' ? b.text : '').join('\\n').trim() || reply;
+    }
+    addMsg('bot', reply);
+    chatHistory.push({role:'assistant', content:reply});
+  }catch(err){
+    typingEl.remove();
+    addMsg('bot', I18N[currentLang].ai_error);
+  }
+}
+document.getElementById('aiSend').addEventListener('click', sendAiMessage);
+document.getElementById('aiInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendAiMessage(); });
+
+/* ============ INIT ============ */
+renderCategoryGrid();
+renderDrinkGrid();
+renderMoodGrid();
+renderFypFeed();
+updateHeaderHeightVar();
+applyI18n();
+</script>
+</body>
+</html>
